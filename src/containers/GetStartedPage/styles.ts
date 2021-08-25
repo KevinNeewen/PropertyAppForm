@@ -13,7 +13,7 @@ const styles = makeStyles((theme: Theme) =>
         page: {
             backgroundSize: 'cover',
             height: '100%',
-            backgroundColor: '#000',
+            backgroundColor: '#E5E5E5',
         },
     }),
 );
