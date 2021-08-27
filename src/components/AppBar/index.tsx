@@ -4,12 +4,12 @@ import ToolBar from '@material-ui/core/Toolbar';
 import useStyles from './styles';
 import { ClassNameMap } from '@material-ui/styles';
 
-interface Props {
+interface MyProps {
     children: React.ReactNode;
     classes: ClassNameMap;
 }
 
-const AppBar = (props: Props) => {
+const AppBar = (props: MyProps) => {
     const classes = useStyles(props);
     const { children } = props;
     return (

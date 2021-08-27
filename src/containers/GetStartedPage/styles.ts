@@ -1,4 +1,4 @@
-import { makeStyles, createStyles, Theme } from '@material-ui/core';
+import { makeStyles, createStyles, Theme, responsiveFontSizes } from '@material-ui/core';
 import { convertToObject } from 'typescript';
 
 //TODO: Need to move these colours to theme palette
@@ -7,22 +7,42 @@ const styles = makeStyles((theme: Theme) =>
         getStartedButton: {
             backgroundColor: theme.palette.primary.main,
             color: '#fff',
+            padding: '.42rem 2rem',
+            borderRadius: '8.3rem',
+            height: '4.4rem',
+            fontSize: '1.4rem',
+            textTransform: 'capitalize',
         },
-        screen: {
-            backgroundSize: 'cover',
+        loginButton: {
+            padding: '.42rem 2rem',
+            borderRadius: '8.3rem',
+            height: '4.4rem',
+            fontSize: '1.4rem',
+            textTransform: 'capitalize',
         },
         page: {
             backgroundSize: 'cover',
             height: '100%',
-            backgroundColor: '#E5E5E5',
+            backgroundColor: '#F5F6FA',
         },
         toolBar: {
             margin: 'auto',
-            color: '#000',
+            color: '#fff',
+            backgroundColor: theme.palette.primary.main,
         },
         appBar: {
             backgroundColor: '#fff',
-            color: '#3A57E8',
+        },
+        introductionContainer: {
+            marginLeft: '13rem',
+            marginTop: '12rem',
+            width: 'auto',
+        },
+        header1: {
+            fontSize: '6rem',
+        },
+        header4: {
+            fontSize: '2.2rem',
         },
     }),
 );

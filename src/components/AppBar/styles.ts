@@ -1,12 +1,12 @@
-import { createStyles } from '@material-ui/core';
+import { createStyles, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
-const styles = makeStyles(() =>
+const styles = makeStyles((theme: Theme) =>
     createStyles({
         root: {},
         toolbar: {},
         spacing: {
-            minHeight: '64px',
+            minHeight: '5.3rem',
             width: '100%',
         },
         appBar: {},
