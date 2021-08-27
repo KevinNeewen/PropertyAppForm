@@ -38,10 +38,14 @@ const GetStartedPage = (props: MyProps) => {
         );
     };
 
+    const renderAppBarContent = () => {
+        return <Header variant="h4">Logo</Header>;
+    };
+
     return (
         <Page //
             classes={{ toolBar: classes.toolBar }}
-            appBarContent={<Header variant="h4">Logo</Header>}
+            appBarContent={renderAppBarContent()}
         >
             <Container //
                 disableGutters
