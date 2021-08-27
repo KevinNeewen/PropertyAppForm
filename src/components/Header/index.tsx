@@ -5,12 +5,12 @@ import styles from './styles';
 
 interface MyProps extends WithStyles<typeof styles> {
     variant: 'h1' | 'h2' | 'h3' | 'h4';
-    text: string;
+    children: string;
     gutterBottom?: boolean;
 }
 
 const Header = (props: MyProps) => {
-    const { variant, text, classes } = props;
+    const { variant, classes, children } = props;
 
     return (
         <Typography //
@@ -18,7 +18,7 @@ const Header = (props: MyProps) => {
             variant={variant}
             className={classes.header}
         >
-            {text}
+            {children}
         </Typography>
     );
 };

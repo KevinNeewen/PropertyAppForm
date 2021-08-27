@@ -6,14 +6,16 @@ import { withStyles, WithStyles } from '@material-ui/styles';
 export interface MyProps extends WithStyles<typeof styles> {
     children: React.ReactNode;
     invisible?: boolean;
+    onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const Button = (props: MyProps) => {
-    const { children, classes } = props;
+    const { children, classes, onClick } = props;
 
     return (
         <MuiButton //
             className={classes.button}
+            onClick={onClick}
         >
             {children}
         </MuiButton>
