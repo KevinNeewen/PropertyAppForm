@@ -1,19 +1,37 @@
 import { Theme } from '@material-ui/core';
 import { createStyles } from '@material-ui/styles';
-import { relative } from 'path';
+import { rootCertificates } from 'tls';
 
 const styles = (theme: Theme) =>
     createStyles({
+        blueWaveSvg: {
+            position: 'fixed',
+            right: '-20rem',
+            bottom: '-15rem',
+            transform: 'rotate(-10deg)',
+            // height: '100%',
+            // width: '100%',
+        },
+        formPageGrid: {
+            height: '100%',
+        },
+        formSectionDetail: {
+            paddingTop: '7rem',
+        },
+        formSectionDetailContainer: {
+            marginLeft: 0,
+        },
         form: {
-            height: '50rem',
-            width: '40rem',
+            height: '35rem',
+            width: '60rem',
             border: '2px solid black',
+            marginTop: '3rem',
         },
         stepperBar: {
             backgroundColor: 'inherit',
             position: 'absolute',
-            top: '40%',
-            left: '50%',
+            top: '35%',
+            left: '40%',
             transform: 'translate(-50%,-50%)',
         },
         stepperContainer: {
@@ -48,7 +66,7 @@ const styles = (theme: Theme) =>
                 '&-labelContainer': {
                     width: 'auto',
                     '& span': {
-                        fontSize: '.8rem',
+                        fontSize: '1rem',
                     },
                 },
                 '&-iconContainer': {
@@ -73,7 +91,6 @@ const styles = (theme: Theme) =>
                             fill: theme.palette.primary.main,
                             border: 'none',
                             fontSize: '1.4rem',
-                            // border: `2px solid ${theme.palette.primary.main}`,
                         },
                     },
                 },

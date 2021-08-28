@@ -6,6 +6,7 @@ import Button from '../../components/Button';
 import Header from '../../components/Header';
 import { WithStyles, withStyles } from '@material-ui/styles';
 import styles from './styles';
+import BlueWaveSvg from '../../components/SVG/BlueWaveSvg';
 
 interface MyProps extends WithStyles<typeof styles> {}
 
@@ -37,9 +38,10 @@ const PropertyFormPage = (props: MyProps) => {
 
     return (
         <Page appBarContent={<div></div>}>
-            <Grid container direction="row">
+            <BlueWaveSvg classes={{ svg: classes.blueWaveSvg }} />
+            <Grid classes={{ root: classes.formPageGrid }} container direction="row">
                 <Grid item xs={3}>
-                    <Container classes={{ root: classes.stepperContainer }} maxWidth="md">
+                    <Container classes={{ root: classes.stepperContainer }} fixed>
                         <Stepper //
                             classes={{ root: classes.stepperBar }}
                             activeStep={activeStep}
@@ -61,23 +63,25 @@ const PropertyFormPage = (props: MyProps) => {
                         </Stepper>
                     </Container>
                 </Grid>
-                <Grid item xs={9}>
-                    <Header variant="h1">{PropertyFormStepsToDescriptionMap[activeStep]}</Header>
-                    <div className={classes.form}></div>
-                    <div>
-                        <Button //
-                            invisible
-                            disabled={activeStep === 0}
-                            onClick={handlePrevStep}
-                        >
-                            Back
-                        </Button>
-                        <Button //
-                            onClick={handleNextStep}
-                        >
-                            {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
-                        </Button>
-                    </div>
+                <Grid classes={{ root: classes.formSectionDetail }} item xs={9}>
+                    <Container classes={{ root: classes.formSectionDetailContainer }} disableGutters fixed>
+                        <Header variant="h1">{PropertyFormStepsToDescriptionMap[activeStep]}</Header>
+                        <div className={classes.form}></div>
+                        <div>
+                            <Button //
+                                invisible
+                                disabled={activeStep === 0}
+                                onClick={handlePrevStep}
+                            >
+                                Back
+                            </Button>
+                            <Button //
+                                onClick={handleNextStep}
+                            >
+                                {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
+                            </Button>
+                        </div>
+                    </Container>
                 </Grid>
             </Grid>
         </Page>

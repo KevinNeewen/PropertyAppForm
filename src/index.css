@@ -8,11 +8,11 @@ body {
 
 body > div {
     height: 100%;
+    overflow: hidden;
 }
-
 html {
-    height: 100%;
     font-size: 12px;
+    height: 100%;
 }
 
 code {
