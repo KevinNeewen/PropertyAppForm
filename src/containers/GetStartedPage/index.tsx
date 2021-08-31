@@ -1,5 +1,4 @@
 import React from 'react';
-import AppBar from '../../components/AppBar';
 import useStyles from './styles';
 import { Container, Box } from '@material-ui/core';
 import NavLink from '../../components/NavLink';
@@ -39,7 +38,7 @@ const GetStartedPage = (props: MyProps) => {
     };
 
     const renderAppBarContent = () => {
-        return <Header variant="h4">Logo</Header>;
+        return <Header variant="h4">PropertyLab</Header>;
     };
 
     return (

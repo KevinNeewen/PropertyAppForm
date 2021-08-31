@@ -5,7 +5,7 @@ import { callbackify } from 'util';
 const styles = (theme: Theme): any =>
     createStyles({
         page: {
-            height: '100%',
+            position: 'absolute',
         },
         toolBar: {},
         appBar: {

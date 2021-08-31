@@ -1,6 +1,5 @@
 import { Theme } from '@material-ui/core';
 import { createStyles } from '@material-ui/styles';
-import { rootCertificates } from 'tls';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -9,34 +8,36 @@ const styles = (theme: Theme) =>
             right: '-20rem',
             bottom: '-15rem',
             transform: 'rotate(-10deg)',
-            // height: '100%',
-            // width: '100%',
         },
         formPageGrid: {
-            height: '100%',
+            // height: '100vh',
         },
+        page: {},
         formSectionDetail: {
-            paddingTop: '7rem',
+            paddingTop: '10rem',
+            height: '100vh',
         },
         formSectionDetailContainer: {
             marginLeft: 0,
         },
+        formDetailActive: {
+            marginLeft: 0,
+            height: '100%',
+        },
         form: {
             height: '35rem',
             width: '60rem',
-            border: '2px solid black',
             marginTop: '3rem',
+            border: '1px solid black',
         },
         stepperBar: {
             backgroundColor: 'inherit',
-            position: 'absolute',
-            top: '35%',
-            left: '40%',
-            transform: 'translate(-50%,-50%)',
+            position: 'fixed',
+            top: '23%',
+            left: '8%',
         },
         stepperContainer: {
-            height: '100%',
-            position: 'relative',
+            height: '100vh',
         },
         stepConnectorRoot: {
             padding: 0,
@@ -52,9 +53,13 @@ const styles = (theme: Theme) =>
         stepLabelVertical: {
             flexDirection: 'row-reverse',
         },
+        stepButtonRoot: {
+            flexDirection: 'row-reverse',
+        },
         stepLabelRoot: {
             '& .MuiStepLabel': {
                 color: '#C4CCF8',
+
                 '&-completed': {
                     fontWeight: 600,
                     color: '#232D42',
@@ -88,7 +93,7 @@ const styles = (theme: Theme) =>
                             border: `1px solid ${theme.palette.primary.main}`,
                         },
                         '&-completed': {
-                            fill: theme.palette.primary.main,
+                            fill: '#1AA053',
                             border: 'none',
                             fontSize: '1.4rem',
                         },
