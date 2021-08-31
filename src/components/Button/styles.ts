@@ -1,9 +1,9 @@
 import { createStyles, Theme } from '@material-ui/core';
-import { MyProps } from './index';
+import { Button } from './index';
 
 const styles = (theme: Theme): any =>
     createStyles({
-        button: (props: MyProps) => ({
+        button: (props: Button) => ({
             padding: '.42rem 2rem',
             borderRadius: '8.3rem',
             height: '4.4rem',

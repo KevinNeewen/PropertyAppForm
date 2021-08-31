@@ -24,12 +24,6 @@ const styles = (theme: Theme) =>
             marginLeft: 0,
             height: '100%',
         },
-        form: {
-            height: '35rem',
-            width: '60rem',
-            marginTop: '3rem',
-            border: '1px solid black',
-        },
         stepperBar: {
             backgroundColor: 'inherit',
             position: 'fixed',

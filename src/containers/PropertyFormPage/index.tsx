@@ -1,41 +1,51 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Page from '../../components/Page';
 import { PropertyFormStepsEnum, PropertyFormStepsToDescriptionMap } from './formSteps';
-import { Stepper, Step, StepLabel, StepContent, Grid, StepConnector, Container } from '@material-ui/core';
-import Button from '../../components/Button';
-import Header from '../../components/Header';
+import { Stepper, Step, StepLabel, Grid, StepConnector, Container } from '@material-ui/core';
 import { WithStyles, withStyles } from '@material-ui/styles';
 import styles from './styles';
 import BlueWaveSvg from '../../components/SVG/BlueWaveSvg';
-import { useCallback } from 'react';
+import Form from './components/Form';
 
 interface MyProps extends WithStyles<typeof styles> {}
 
 const PropertyFormPage = (props: MyProps) => {
     const { classes } = props;
     const [activeStep, setActiveStep] = useState<PropertyFormStepsEnum>(0);
+    const [activeAndCompletedSteps, setActiveAndCompletedSteps] = useState<PropertyFormStepsEnum[]>([activeStep]);
 
     useEffect(() => {
         const el = document.getElementById(`#formpage-${activeStep}`);
+
         el?.scrollIntoView({
             behavior: 'smooth',
+            block: 'center',
         });
     }, [activeStep]);
 
-    const handleNextStep = () => {
+    const handleNextStep = (event: React.MouseEvent<HTMLButtonElement>) => {
+        if (activeAndCompletedSteps.includes(activeStep + 1)) {
+            setActiveStep((prevActiveStep) => prevActiveStep + 1);
+            return;
+        }
+        setActiveAndCompletedSteps((prevActiveAndCompletedSteps) => [...prevActiveAndCompletedSteps, activeStep + 1]);
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
 
-    const handlePrevStep = () => {
+    const handlePrevStep = (event: React.MouseEvent<HTMLButtonElement>) => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-    const goToStep = (step: PropertyFormStepsEnum) => {
+    const goToStep = (step: PropertyFormStepsEnum) => () => {
         setActiveStep(step);
     };
 
     const getSteps = () => {
         return Object.values(PropertyFormStepsToDescriptionMap);
+    };
+
+    const getScrollableSteps = () => {
+        return activeAndCompletedSteps.map((s) => PropertyFormStepsToDescriptionMap[s]);
     };
 
     const steps = getSteps();
@@ -49,40 +59,29 @@ const PropertyFormPage = (props: MyProps) => {
             return (
                 <>
                     <Grid id={`#formpage-${index}`} classes={{ root: classes.formSectionDetail }} item xs={9}>
-                        <Container
-                            classes={{
-                                root: !active ? classes.formSectionDetailContainer : classes.formDetailActive,
+                        <Form //
+                            classes={{ root: !active ? classes.formSectionDetailContainer : classes.formDetailActive }}
+                            title={title}
+                            previousButton={{
+                                text: 'Back',
+                                onClick: handlePrevStep,
+                                disabled: activeStep === 0,
                             }}
-                            disableGutters
-                            fixed
-                        >
-                            <Header variant="h1">{title}</Header>
-                            <div className={classes.form}></div>
-                            <div>
-                                <Button //
-                                    invisible
-                                    disabled={activeStep === 0}
-                                    onClick={handlePrevStep}
-                                >
-                                    Back
-                                </Button>
-                                <Button //
-                                    onClick={handleNextStep}
-                                >
-                                    {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
-                                </Button>
-                            </div>
-                        </Container>
+                            nextButton={{
+                                text: activeStep === steps.length - 1 ? 'Submit' : 'Next',
+                                onClick: handleNextStep,
+                            }}
+                        />
                     </Grid>
                     <Grid item xs={3}></Grid>
                 </>
             );
         },
-        [activeStep],
+        [activeAndCompletedSteps],
     );
 
     return (
-        <Page appBarContent={<div></div>}>
+        <Page classes={{ page: classes.page }} appBarContent={<div></div>}>
             <BlueWaveSvg classes={{ svg: classes.blueWaveSvg }} />
             <Grid classes={{ root: classes.formPageGrid }} container direction="row">
                 <Grid item xs={3}>
@@ -108,8 +107,7 @@ const PropertyFormPage = (props: MyProps) => {
                         </Stepper>
                     </Container>
                 </Grid>
-
-                {steps.map((label, index) => formDetailSection(label, index, index === activeStep))}
+                {getScrollableSteps().map((label, index) => formDetailSection(label, index, index === activeStep))}
             </Grid>
         </Page>
     );
