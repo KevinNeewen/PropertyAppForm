@@ -55,7 +55,6 @@ const styles = (theme: Theme) =>
                 color: '#C4CCF8',
 
                 '&-completed': {
-                    fontWeight: 600,
                     color: '#232D42',
                 },
                 '&-active': {
