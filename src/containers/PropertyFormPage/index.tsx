@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { Grid } from '@material-ui/core';
+import { WithStyles, withStyles } from '@material-ui/styles';
 import Page from '../../components/Page';
 import { PropertyFormStepsEnum, PropertyFormStepsToDescriptionMap } from './formSteps';
-import { Stepper, Step, StepLabel, Grid, StepConnector, Container } from '@material-ui/core';
-import { WithStyles, withStyles } from '@material-ui/styles';
-import styles from './styles';
+import Stepper from './components/Stepper';
 import BlueWaveSvg from '../../components/SVG/BlueWaveSvg';
 import Form from './components/Form';
+import styles from './styles';
 
 interface MyProps extends WithStyles<typeof styles> {}
 
@@ -50,10 +51,6 @@ const PropertyFormPage = (props: MyProps) => {
 
     const steps = getSteps();
 
-    const renderStyledStepConnector = () => {
-        return <StepConnector classes={{ root: classes.stepConnectorRoot }} />;
-    };
-
     const formDetailSection = useCallback(
         (title: string, index: number, active: boolean) => {
             return (
@@ -85,27 +82,7 @@ const PropertyFormPage = (props: MyProps) => {
             <BlueWaveSvg classes={{ svg: classes.blueWaveSvg }} />
             <Grid classes={{ root: classes.formPageGrid }} container direction="row">
                 <Grid item xs={3}>
-                    <Container classes={{ root: classes.stepperContainer }} fixed>
-                        <Stepper //
-                            classes={{ root: classes.stepperBar }}
-                            activeStep={activeStep}
-                            orientation="vertical"
-                            connector={renderStyledStepConnector()}
-                        >
-                            {steps.map((label, index) => (
-                                <Step key={index}>
-                                    <StepLabel
-                                        classes={{
-                                            root: classes.stepLabelRoot,
-                                            vertical: classes.stepLabelVertical,
-                                        }}
-                                    >
-                                        {label}
-                                    </StepLabel>
-                                </Step>
-                            ))}
-                        </Stepper>
-                    </Container>
+                    <Stepper activeStep={activeStep} steps={steps} />
                 </Grid>
                 {getScrollableSteps().map((label, index) => formDetailSection(label, index, index === activeStep))}
             </Grid>
