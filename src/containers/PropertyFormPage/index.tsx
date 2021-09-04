@@ -13,7 +13,7 @@ interface MyProps extends WithStyles<typeof styles> {}
 const PropertyFormPage = (props: MyProps) => {
     const { classes } = props;
     const [activeStep, setActiveStep] = useState<PropertyFormStepsEnum>(0);
-    const [activeAndCompletedSteps, setActiveAndCompletedSteps] = useState<PropertyFormStepsEnum[]>([activeStep]);
+    const [completedSteps, setCompletedSteps] = useState<PropertyFormStepsEnum[]>([]);
 
     useEffect(() => {
         const el = document.getElementById(`#formpage-${activeStep}`);
@@ -24,20 +24,53 @@ const PropertyFormPage = (props: MyProps) => {
         });
     }, [activeStep]);
 
-    const handleNextStep = (event: React.MouseEvent<HTMLButtonElement>) => {
-        if (activeAndCompletedSteps.includes(activeStep + 1)) {
-            setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    const totalSteps = () => {
+        return steps.length;
+    };
+
+    const allStepsCompleted = () => {
+        return totalCompletedSteps() === totalSteps();
+    };
+
+    const totalCompletedSteps = () => {
+        return Object.keys(completedSteps).length;
+    };
+
+    const isFirstStep = () => {
+        return activeStep === 0;
+    };
+
+    const isLastStep = () => {
+        return activeStep === totalSteps() - 1;
+    };
+
+    const activeAndCompletedSteps = () => {
+        return [activeStep, ...completedSteps];
+    };
+
+    const handleNextStep = (step: PropertyFormStepsEnum) => (event: React.MouseEvent<HTMLButtonElement>) => {
+        const currentStep = step;
+
+        if (currentStep === steps.length - 1) {
             return;
         }
-        setActiveAndCompletedSteps((prevActiveAndCompletedSteps) => [...prevActiveAndCompletedSteps, activeStep + 1]);
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+
+        const nextStep = currentStep + 1;
+
+        // if (activeAndCompletedSteps().includes(nextStep)) {
+        //     setActiveStep(nextStep);
+        //     return;
+        // }
+
+        setCompletedSteps((prevCompletedSteps) => [...prevCompletedSteps, nextStep]);
+        setActiveStep(nextStep);
     };
 
-    const handlePrevStep = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    const handlePrevStep = (step: PropertyFormStepsEnum) => (event: React.MouseEvent<HTMLButtonElement>) => {
+        setActiveStep(step - 1);
     };
 
-    const goToStep = (step: PropertyFormStepsEnum) => () => {
+    const handleStep = (step: PropertyFormStepsEnum) => () => {
         setActiveStep(step);
     };
 
@@ -46,7 +79,13 @@ const PropertyFormPage = (props: MyProps) => {
     };
 
     const getScrollableSteps = () => {
-        return activeAndCompletedSteps.map((s) => PropertyFormStepsToDescriptionMap[s]);
+        return [activeStep, ...completedSteps].map((s) => PropertyFormStepsToDescriptionMap[s]);
+    };
+
+    const isStepComplete = (step: PropertyFormStepsEnum) => {
+        if (step === 0) {
+        }
+        return completedSteps.includes(step);
     };
 
     const steps = getSteps();
@@ -59,14 +98,17 @@ const PropertyFormPage = (props: MyProps) => {
                         <Form //
                             classes={{ root: !active ? classes.formSectionDetailContainer : classes.formDetailActive }}
                             title={title}
-                            previousButton={{
-                                text: 'Back',
-                                onClick: handlePrevStep,
-                                disabled: activeStep === 0,
-                            }}
+                            previousButton={
+                                index !== 0
+                                    ? {
+                                          text: 'Back',
+                                          onClick: handlePrevStep(index),
+                                      }
+                                    : undefined
+                            }
                             nextButton={{
-                                text: activeStep === steps.length - 1 ? 'Submit' : 'Next',
-                                onClick: handleNextStep,
+                                text: isLastStep() ? 'Submit' : 'Next',
+                                onClick: handleNextStep(index),
                             }}
                         />
                     </Grid>
@@ -82,7 +124,12 @@ const PropertyFormPage = (props: MyProps) => {
             <BlueWaveSvg classes={{ svg: classes.blueWaveSvg }} />
             <Grid classes={{ root: classes.formPageGrid }} container direction="row">
                 <Grid item xs={3}>
-                    <Stepper activeStep={activeStep} steps={steps} />
+                    <Stepper //
+                        isComplete={isStepComplete}
+                        activeStep={activeStep}
+                        steps={steps}
+                        handleStep={handleStep}
+                    />
                 </Grid>
                 {getScrollableSteps().map((label, index) => formDetailSection(label, index, index === activeStep))}
             </Grid>

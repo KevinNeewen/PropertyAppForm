@@ -9,10 +9,14 @@ const styles = (theme: Theme) =>
             top: '23%',
             left: '8%',
         },
+        stepButton: {
+            justifyContent: 'flex-end',
+        },
         stepLabel: {
+            flexDirection: 'row-reverse',
+
             '& .MuiStepLabel': {
                 color: '#C4CCF8',
-
                 '&-completed': {
                     color: '#232D42',
                 },
@@ -53,9 +57,7 @@ const styles = (theme: Theme) =>
                 },
             },
         },
-        stepLabelVertical: {
-            flexDirection: 'row-reverse',
-        },
+        stepLabelVertical: {},
         stepConnector: {
             padding: 0,
 

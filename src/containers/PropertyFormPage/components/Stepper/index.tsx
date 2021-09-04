@@ -1,15 +1,18 @@
 import React from 'react';
-import { Container, StepConnector, Stepper as MuiStepper, Step, StepLabel } from '@material-ui/core';
+import { Container, StepConnector, StepLabel, Stepper as MuiStepper, Step, StepButton } from '@material-ui/core';
 import { withStyles, WithStyles } from '@material-ui/styles';
 import styles from './styles';
+import { PropertyFormStepsEnum } from '../../formSteps';
 
 interface MyProps extends WithStyles<typeof styles> {
     steps: string[];
-    activeStep: number;
+    activeStep: PropertyFormStepsEnum;
+    handleStep: (step: PropertyFormStepsEnum) => (event: React.MouseEvent<HTMLButtonElement>) => void;
+    isComplete: (step: PropertyFormStepsEnum) => boolean;
 }
 
 const Stepper = (props: MyProps) => {
-    const { classes, steps, activeStep } = props;
+    const { classes, steps, activeStep, handleStep, isComplete } = props;
 
     const renderStyledStepConnector = () => {
         return <StepConnector classes={{ root: classes.stepConnector }} />;
@@ -22,17 +25,24 @@ const Stepper = (props: MyProps) => {
                 activeStep={activeStep}
                 orientation="vertical"
                 connector={renderStyledStepConnector()}
+                nonLinear
             >
                 {steps.map((label, index) => (
                     <Step key={index}>
-                        <StepLabel
-                            classes={{
-                                root: classes.stepLabel,
-                                vertical: classes.stepLabelVertical,
-                            }}
+                        <StepButton
+                            classes={{ root: classes.stepButton }}
+                            onClick={handleStep(activeStep)}
+                            completed={isComplete(index)}
                         >
-                            {label}
-                        </StepLabel>
+                            <StepLabel
+                                classes={{
+                                    root: classes.stepLabel,
+                                    vertical: classes.stepLabelVertical,
+                                }}
+                            >
+                                {label}
+                            </StepLabel>
+                        </StepButton>
                     </Step>
                 ))}
             </MuiStepper>

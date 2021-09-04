@@ -24,12 +24,6 @@ const styles = (theme: Theme) =>
             marginLeft: 0,
             height: '100%',
         },
-        stepLabelVertical: {
-            flexDirection: 'row-reverse',
-        },
-        stepButtonRoot: {
-            flexDirection: 'row-reverse',
-        },
     });
 
 export default styles;
