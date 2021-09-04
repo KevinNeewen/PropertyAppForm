@@ -4,6 +4,7 @@ import { Container, Box } from '@material-ui/core';
 import NavLink from '../../components/NavLink';
 import Header from '../../components/Header';
 import Page from '../../components/Page';
+import BlueWaveSecondarySvg from '../../components/SVG/BlueWaveSecondarySvg';
 
 interface MyProps {}
 
@@ -46,6 +47,7 @@ const GetStartedPage = (props: MyProps) => {
             classes={{ toolBar: classes.toolBar }}
             appBarContent={renderAppBarContent()}
         >
+            <BlueWaveSecondarySvg classes={{ svg: classes.blueWaveSvg }} />
             <Container //
                 disableGutters
                 maxWidth={false}

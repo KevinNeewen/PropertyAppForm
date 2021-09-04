@@ -1,11 +1,10 @@
 import { withStyles, WithStyles } from '@material-ui/styles';
-import { classes } from 'istanbul-lib-coverage';
 import React from 'react';
 import styles from './styles';
 
 interface MyProps extends WithStyles<typeof styles> {}
 
-const BlueWaveSvg = (props: MyProps) => (
+const BlueWavePrimarySvg = (props: MyProps) => (
     <svg className={props.classes.svg} id="visual" viewBox="0 0 1440 900" width="1440" height="900" version="1.1">
         <path
             d="M0 627L34.3 621.3C68.7 615.7 137.3 604.3 205.8 603.2C274.3 602 342.7 611 411.2 600.3C479.7 589.7 548.3 559.3 617 561.7C685.7 564 754.3 599 823 618.8C891.7 638.7 960.3 643.3 1028.8 628.5C1097.3 613.7 1165.7 579.3 1234.2 562.8C1302.7 546.3 1371.3 547.7 1405.7 548.3L1440 549L1440 901L1405.7 901C1371.3 901 1302.7 901 1234.2 901C1165.7 901 1097.3 901 1028.8 901C960.3 901 891.7 901 823 901C754.3 901 685.7 901 617 901C548.3 901 479.7 901 411.2 901C342.7 901 274.3 901 205.8 901C137.3 901 68.7 901 34.3 901L0 901Z"
@@ -30,4 +29,4 @@ const BlueWaveSvg = (props: MyProps) => (
     </svg>
 );
 
-export default withStyles(styles)(BlueWaveSvg);
+export default withStyles(styles)(BlueWavePrimarySvg);

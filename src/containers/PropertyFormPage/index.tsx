@@ -4,7 +4,7 @@ import { WithStyles, withStyles } from '@material-ui/styles';
 import Page from '../../components/Page';
 import { PropertyFormStepsEnum, PropertyFormStepsToDescriptionMap } from './formSteps';
 import Stepper from './components/Stepper';
-import BlueWaveSvg from '../../components/SVG/BlueWaveSvg';
+import BlueWavePrimarySvg from '../../components/SVG/BlueWavePrimarySvg';
 import Form from './components/Form';
 import styles from './styles';
 import _throttle from 'lodash/throttle';
@@ -171,7 +171,7 @@ const PropertyFormPage = (props: MyProps) => {
     console.log(scrollableSteps);
     return (
         <Page onWheel={onScroll} classes={{ page: classes.page }} appBarContent={<div></div>}>
-            <BlueWaveSvg classes={{ svg: classes.blueWaveSvg }} />
+            <BlueWavePrimarySvg classes={{ svg: classes.blueWaveSvg }} />
             <Grid classes={{ root: classes.formPageGrid }} container direction="row">
                 <Grid item xs={3}>
                     <Stepper //

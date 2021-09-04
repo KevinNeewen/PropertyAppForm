@@ -25,6 +25,12 @@ const styles = makeStyles((theme: Theme) =>
         header: {
             fontSize: '6rem',
         },
+        blueWaveSvg: {
+            position: 'fixed',
+            right: 0,
+            top: 0,
+            zIndex: -1,
+        },
     }),
 );
 
