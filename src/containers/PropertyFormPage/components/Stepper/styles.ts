@@ -47,7 +47,9 @@ const styles = (theme: Theme) =>
                             padding: '1.3px',
                             fontSize: '1.5rem',
                             border: `1px solid ${theme.palette.primary.main}`,
+                            marginRight: '-3px',
                         },
+
                         '&-completed': {
                             fill: '#1AA053',
                             border: 'none',

@@ -5,6 +5,9 @@ export const theme = createTheme({
         primary: {
             main: '#3A57E8',
         },
+        background: {
+            default: '#F5F6FA',
+        },
     },
     typography: {
         fontFamily: ['-apple-system', 'BlinkMacSystemFont', 'Inter', 'sans-serif'].join(','),

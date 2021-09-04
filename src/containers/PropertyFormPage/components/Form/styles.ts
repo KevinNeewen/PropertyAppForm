@@ -8,6 +8,7 @@ const styles = (theme: Theme) =>
             width: '60rem',
             marginTop: '3rem',
             border: '1px solid black',
+            backgroundColor: theme.palette.background.default,
         },
     });
 

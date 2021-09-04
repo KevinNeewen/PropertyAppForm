@@ -5,9 +5,10 @@ const styles = (theme: Theme) =>
     createStyles({
         blueWaveSvg: {
             position: 'fixed',
-            right: '-20rem',
-            bottom: '-15rem',
+            right: '-15rem',
+            bottom: '-13rem',
             transform: 'rotate(-10deg)',
+            zIndex: -1,
         },
         formPageGrid: {
             // height: '100vh',
