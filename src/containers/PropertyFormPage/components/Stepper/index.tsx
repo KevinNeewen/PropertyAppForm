@@ -7,12 +7,13 @@ import { PropertyFormStepsEnum } from '../../formSteps';
 interface MyProps extends WithStyles<typeof styles> {
     steps: string[];
     activeStep: PropertyFormStepsEnum;
+    isScrollableTo: (step: PropertyFormStepsEnum) => boolean;
     handleStep: (step: PropertyFormStepsEnum) => (event: React.MouseEvent<HTMLButtonElement>) => void;
     isComplete: (step: PropertyFormStepsEnum) => boolean;
 }
 
 const Stepper = (props: MyProps) => {
-    const { classes, steps, activeStep, handleStep, isComplete } = props;
+    const { classes, steps, activeStep, handleStep, isComplete, isScrollableTo } = props;
 
     const renderStyledStepConnector = () => {
         return <StepConnector classes={{ root: classes.stepConnector }} />;
@@ -31,7 +32,8 @@ const Stepper = (props: MyProps) => {
                     <Step key={index}>
                         <StepButton
                             classes={{ root: classes.stepButton }}
-                            onClick={handleStep(activeStep)}
+                            onClick={handleStep(index)}
+                            disabled={!isScrollableTo(index)}
                             completed={isComplete(index)}
                         >
                             <StepLabel
