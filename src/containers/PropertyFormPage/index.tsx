@@ -70,7 +70,6 @@ const PropertyFormPage = (props: MyProps) => {
         if (!completedSteps.includes(nextStep)) {
             setCompletedSteps((prevCompletedSteps) => {
                 const newCompleteSteps = prevCompletedSteps.concat(currentStep);
-                console.log('new completed steps', newCompleteSteps);
                 return newCompleteSteps;
             });
         }
@@ -104,6 +103,8 @@ const PropertyFormPage = (props: MyProps) => {
         return Object.values(PropertyFormStepsToDescriptionMap);
     };
 
+    const steps = getSteps();
+
     const isStepComplete = (step: PropertyFormStepsEnum) => {
         const isComplete = completedSteps.includes(step);
 
@@ -111,34 +112,29 @@ const PropertyFormPage = (props: MyProps) => {
     };
 
     const onScroll = (event: any) => {
-        console.log('scrolling');
         if (event.nativeEvent.wheelDelta > 0) {
-            if (activeStep === 0) {
+            //scrolling up
+            if (isFirstStep()) {
                 return;
-            }
-            const previousStep = activeStep - 1;
-            const el = document.getElementById(`#formpage-${previousStep}`)?.querySelector('h1');
-            if (ScreenHelper.isInViewPort(el)) {
-                isAutomaticScroll.current = false;
-                setActiveStep(previousStep);
-            }
-            return;
-        } else {
-            if (activeStep === steps.length - 1) {
-                return;
-            }
-            const nextStep = activeStep + 1;
-            const el = document.getElementById(`#formpage-${nextStep}`)?.querySelector('h1');
-            if (ScreenHelper.isInViewPort(el)) {
-                isAutomaticScroll.current = false;
-                setActiveStep(nextStep);
             }
 
-            return;
+            setActiveStepIfInScreen(activeStep - 1);
+        } else {
+            //scrolling down
+            if (isLastStep()) {
+                return;
+            }
+            setActiveStepIfInScreen(activeStep + 1);
         }
     };
 
-    const steps = getSteps();
+    const setActiveStepIfInScreen = (step: PropertyFormStepsEnum) => {
+        const el = document.getElementById(`#formpage-${step}`)?.querySelector('h1');
+        if (ScreenHelper.isInViewPort(el)) {
+            isAutomaticScroll.current = false;
+            setActiveStep(step);
+        }
+    };
 
     const formDetailSection = useCallback(
         (title: string, index: number, active: boolean) => {
