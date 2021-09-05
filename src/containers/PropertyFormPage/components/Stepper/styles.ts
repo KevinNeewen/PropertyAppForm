@@ -12,6 +12,31 @@ const styles = (theme: Theme) =>
         stepButton: {
             justifyContent: 'flex-end',
         },
+        lastIncompleteStep: {
+            flexDirection: 'row-reverse',
+            '& .MuiStepLabel': {
+                '&-labelContainer': {
+                    width: 'auto',
+                    '& span': {
+                        fontSize: '1rem',
+                    },
+                },
+                fontWeight: 600,
+                color: '#C4CCF8',
+                '&-iconContainer': {
+                    '& svg': {
+                        fontSize: '1.3rem',
+                        marginLeft: '.6rem',
+                        border: `3px solid ${theme.palette.primary.main}`,
+                        fill: 'transparent',
+                        borderRadius: '5rem',
+                        '& text': {
+                            display: 'none',
+                        },
+                    },
+                },
+            },
+        },
         stepLabel: {
             flexDirection: 'row-reverse',
 
@@ -44,16 +69,16 @@ const styles = (theme: Theme) =>
                     '& .MuiStepIcon': {
                         '&-active': {
                             fill: theme.palette.primary.main,
-                            padding: '1.3px',
+                            padding: '1.5px',
                             fontSize: '1.5rem',
                             border: `1px solid ${theme.palette.primary.main}`,
-                            marginRight: '-3px',
+                            marginRight: '-2px',
                         },
 
                         '&-completed': {
                             fill: '#1AA053',
                             border: 'none',
-                            fontSize: '1.4rem',
+                            fontSize: '1.7rem',
                         },
                     },
                 },
@@ -65,10 +90,9 @@ const styles = (theme: Theme) =>
 
             '& .MuiStepConnector-line': {
                 float: 'right',
-                marginTop: '.3rem',
-                marginBottom: '.3rem',
-                marginRight: '1.3rem',
-                border: `1px solid #C4CCF8`,
+                marginRight: '1.4rem',
+                border: '1px solid #C4CCF8',
+                backgroundColor: '#C4CCF8',
             },
         },
     });

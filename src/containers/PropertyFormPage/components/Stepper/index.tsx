@@ -10,10 +10,20 @@ interface MyProps extends WithStyles<typeof styles> {
     isScrollableTo: (step: PropertyFormStepsEnum) => boolean;
     handleStep: (step: PropertyFormStepsEnum) => (event: React.MouseEvent<HTMLButtonElement>) => void;
     isComplete: (step: PropertyFormStepsEnum) => boolean;
+    isLastIncompleteStep: (step: PropertyFormStepsEnum) => boolean;
 }
 
 const Stepper = (props: MyProps) => {
-    const { classes, steps, activeStep, handleStep, isComplete, isScrollableTo } = props;
+    const {
+        //
+        classes,
+        steps,
+        activeStep,
+        handleStep,
+        isComplete,
+        isScrollableTo,
+        isLastIncompleteStep,
+    } = props;
 
     const renderStyledStepConnector = () => {
         return <StepConnector classes={{ root: classes.stepConnector }} />;
@@ -38,7 +48,9 @@ const Stepper = (props: MyProps) => {
                         >
                             <StepLabel
                                 classes={{
-                                    root: classes.stepLabel,
+                                    root: ` ${
+                                        isLastIncompleteStep(index) ? classes.lastIncompleteStep : classes.stepLabel
+                                    }`,
                                     vertical: classes.stepLabelVertical,
                                 }}
                             >

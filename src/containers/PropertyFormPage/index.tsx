@@ -7,14 +7,16 @@ import Stepper from './components/Stepper';
 import BlueWavePrimarySvg from '../../components/SVG/BlueWavePrimarySvg';
 import Form from './components/Form';
 import styles from './styles';
-import _throttle from 'lodash/throttle';
 import ScreenHelper from '../../utils/screenHelper';
 
 interface MyProps extends WithStyles<typeof styles> {}
 
 const PropertyFormPage = (props: MyProps) => {
     const { classes } = props;
-    const [activeStep, setActiveStep] = useState<PropertyFormStepsEnum>(0);
+    const [activeStep, setActiveStep] = useState<PropertyFormStepsEnum>(PropertyFormStepsEnum.PropertyInformation);
+    const [lastIncompleteStep, setLastIncompleteStep] = useState<PropertyFormStepsEnum>(
+        PropertyFormStepsEnum.PropertyInformation,
+    );
     const [completedSteps, setCompletedSteps] = useState<PropertyFormStepsEnum[]>([]);
     const [scrollableSteps, setScrollableSteps] = useState<PropertyFormStepsEnum[]>([
         PropertyFormStepsEnum.PropertyInformation,
@@ -24,7 +26,6 @@ const PropertyFormPage = (props: MyProps) => {
 
     useEffect(() => {
         const el = document.getElementById(`#formpage-${activeStep}`);
-        console.log('Currently active step', activeStep, PropertyFormStepsToDescriptionMap[activeStep]);
 
         if (isAutomaticScroll.current) {
             el?.scrollIntoView({
@@ -48,12 +49,12 @@ const PropertyFormPage = (props: MyProps) => {
         return Object.keys(completedSteps).length;
     };
 
-    const isFirstStep = () => {
-        return activeStep === 0;
+    const isFirstStep = (step: PropertyFormStepsEnum) => {
+        return step === 0;
     };
 
-    const isLastStep = () => {
-        return activeStep === totalSteps() - 1;
+    const isLastStep = (step: PropertyFormStepsEnum) => {
+        return step === totalSteps() - 1;
     };
 
     const isStepScrollableTo = (step: PropertyFormStepsEnum) => {
@@ -80,6 +81,10 @@ const PropertyFormPage = (props: MyProps) => {
                 newScrollableSteps.sort();
                 return newScrollableSteps;
             });
+        }
+
+        if (!isLastStep(currentStep) && nextStep > lastIncompleteStep) {
+            setLastIncompleteStep(nextStep);
         }
 
         setActiveStep(nextStep);
@@ -114,14 +119,14 @@ const PropertyFormPage = (props: MyProps) => {
     const onScroll = (event: any) => {
         if (event.nativeEvent.wheelDelta > 0) {
             //scrolling up
-            if (isFirstStep()) {
+            if (isFirstStep(activeStep)) {
                 return;
             }
 
             setActiveStepIfInScreen(activeStep - 1);
         } else {
             //scrolling down
-            if (isLastStep()) {
+            if (isLastStep(activeStep)) {
                 return;
             }
             setActiveStepIfInScreen(activeStep + 1);
@@ -136,6 +141,14 @@ const PropertyFormPage = (props: MyProps) => {
         }
     };
 
+    const isLastIncompleteStep = (step: PropertyFormStepsEnum) => {
+        if (step !== activeStep) {
+            return step === lastIncompleteStep;
+        }
+        return false;
+    };
+
+    console.log('last in progress step', lastIncompleteStep);
     const formDetailSection = useCallback(
         (title: string, index: number, active: boolean) => {
             return (
@@ -153,7 +166,7 @@ const PropertyFormPage = (props: MyProps) => {
                                     : undefined
                             }
                             nextButton={{
-                                text: isLastStep() ? 'Submit' : 'Next',
+                                text: isLastStep(activeStep) ? 'Submit' : 'Next',
                                 onClick: handleNextStep(index),
                             }}
                         />
@@ -164,7 +177,7 @@ const PropertyFormPage = (props: MyProps) => {
         },
         [activeStep],
     );
-    console.log(scrollableSteps);
+
     return (
         <Page onWheel={onScroll} classes={{ page: classes.page }} appBarContent={<div></div>}>
             <BlueWavePrimarySvg classes={{ svg: classes.blueWaveSvg }} />
@@ -176,6 +189,7 @@ const PropertyFormPage = (props: MyProps) => {
                         steps={steps}
                         handleStep={handleStep}
                         isScrollableTo={isStepScrollableTo}
+                        isLastIncompleteStep={isLastIncompleteStep}
                     />
                 </Grid>
                 {scrollableSteps.map((step) =>
