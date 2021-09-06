@@ -1,5 +1,4 @@
-import { makeStyles, createStyles, Theme, responsiveFontSizes } from '@material-ui/core';
-import { convertToObject } from 'typescript';
+import { makeStyles, createStyles, Theme } from '@material-ui/core';
 
 //TODO: Need to move these colours to theme palette
 const styles = makeStyles((theme: Theme) =>

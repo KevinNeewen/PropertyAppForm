@@ -1,7 +1,7 @@
-export const isInViewPort = (element: HTMLElement | null | undefined) => {
+export const isInViewPort = (element: HTMLElement | null | undefined): boolean => {
     // debugger;
     if (!element) {
-        return;
+        return false;
     }
     const screen = element.getBoundingClientRect();
 

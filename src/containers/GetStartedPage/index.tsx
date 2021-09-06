@@ -8,7 +8,7 @@ import BlueWaveSecondarySvg from '../../components/SVG/BlueWaveSecondarySvg';
 
 interface MyProps {}
 
-const GetStartedPage = (props: MyProps) => {
+const GetStartedPage = (props: MyProps): JSX.Element => {
     const classes = useStyles(props);
 
     const renderButtons = () => {

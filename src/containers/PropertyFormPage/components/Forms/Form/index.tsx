@@ -1,8 +1,8 @@
 import React from 'react';
 import { withStyles, WithStyles } from '@material-ui/styles';
 import { Container } from '@material-ui/core';
-import Header from '../../../../components/Header';
-import Button from '../../../../components/Button';
+import Header from '../../../../../components/Header';
+import Button from '../../../../../components/Button';
 import styles from './styles';
 import { FormButton } from './types';
 

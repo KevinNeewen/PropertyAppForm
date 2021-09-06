@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, StepConnector, StepLabel, Stepper as MuiStepper, Step, StepButton } from '@material-ui/core';
 import { withStyles, WithStyles } from '@material-ui/styles';
 import styles from './styles';
-import { PropertyFormStepsEnum } from '../../formSteps';
+import { PropertyFormStepsEnum } from '../../types';
 
 interface MyProps extends WithStyles<typeof styles> {
     steps: string[];

@@ -15,3 +15,14 @@ export const PropertyFormStepsToDescriptionMap = {
     [PropertyFormStepsEnum.Assumptions]: 'Assumptions',
     [PropertyFormStepsEnum.Summary]: 'Summary',
 };
+
+export enum PropertyTypeEnum {
+    House,
+    Townhouse,
+    Apartment,
+}
+
+export enum PurposeOfProperty {
+    Investment,
+    PrimaryResidence,
+}

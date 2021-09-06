@@ -1,7 +1,7 @@
-import { createStyles, Theme } from '@material-ui/core';
+import { createStyles } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
-const styles = makeStyles((theme: Theme) =>
+const styles: any = makeStyles(() =>
     createStyles({
         root: {},
         toolbar: {},

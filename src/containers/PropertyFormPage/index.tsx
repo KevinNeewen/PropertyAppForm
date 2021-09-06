@@ -2,12 +2,14 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Grid } from '@material-ui/core';
 import { WithStyles, withStyles } from '@material-ui/styles';
 import Page from '../../components/Page';
-import { PropertyFormStepsEnum, PropertyFormStepsToDescriptionMap } from './formSteps';
+import { PropertyFormStepsEnum, PropertyFormStepsToDescriptionMap } from './types';
 import Stepper from './components/Stepper';
 import BlueWavePrimarySvg from '../../components/SVG/BlueWavePrimarySvg';
-import Form from './components/Form';
+import Form from './components/Forms/Form';
 import styles from './styles';
 import ScreenHelper from '../../utils/screenHelper';
+import { Formik } from 'formik';
+import { initialValues } from './initialValues';
 
 interface MyProps extends WithStyles<typeof styles> {}
 
@@ -41,14 +43,6 @@ const PropertyFormPage = (props: MyProps) => {
         return steps.length;
     };
 
-    const allStepsCompleted = () => {
-        return totalCompletedSteps() === totalSteps();
-    };
-
-    const totalCompletedSteps = () => {
-        return Object.keys(completedSteps).length;
-    };
-
     const isFirstStep = (step: PropertyFormStepsEnum) => {
         return step === 0;
     };
@@ -61,7 +55,7 @@ const PropertyFormPage = (props: MyProps) => {
         return scrollableSteps.includes(step);
     };
 
-    const handleNextStep = (currentStep: PropertyFormStepsEnum) => (event: React.MouseEvent<HTMLButtonElement>) => {
+    const handleNextStep = (currentStep: PropertyFormStepsEnum) => () => {
         if (currentStep === steps.length - 1) {
             return;
         }
@@ -90,7 +84,7 @@ const PropertyFormPage = (props: MyProps) => {
         setActiveStep(nextStep);
     };
 
-    const handlePrevStep = (currentStep: PropertyFormStepsEnum) => (event: React.MouseEvent<HTMLButtonElement>) => {
+    const handlePrevStep = (currentStep: PropertyFormStepsEnum) => () => {
         if (currentStep === 0) {
             return;
         }
@@ -148,8 +142,30 @@ const PropertyFormPage = (props: MyProps) => {
         return false;
     };
 
-    console.log('last in progress step', lastIncompleteStep);
-    const formDetailSection = useCallback(
+    const renderForm = () => (
+        <Formik
+            //
+            initialValues={initialValues}
+            onSubmit={(values, actions) => {
+                setTimeout(() => {
+                    alert(JSON.stringify(values, null, 2));
+                    actions.setSubmitting(false);
+                }, 1000);
+            }}
+        >
+            {(props) => {
+                {
+                    <form onSubmit={props.handleSubmit}>
+                        {scrollableSteps.map((step) =>
+                            renderSubForm(PropertyFormStepsToDescriptionMap[step], step, step === activeStep),
+                        )}
+                    </form>;
+                }
+            }}
+        </Formik>
+    );
+
+    const renderSubForm = useCallback(
         (title: string, index: number, active: boolean) => {
             return (
                 <>
@@ -192,9 +208,7 @@ const PropertyFormPage = (props: MyProps) => {
                         isLastIncompleteStep={isLastIncompleteStep}
                     />
                 </Grid>
-                {scrollableSteps.map((step) =>
-                    formDetailSection(PropertyFormStepsToDescriptionMap[step], step, step === activeStep),
-                )}
+                {renderForm()}
             </Grid>
         </Page>
     );

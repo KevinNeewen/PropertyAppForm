@@ -9,7 +9,7 @@ interface MyProps {
     classes: ClassNameMap;
 }
 
-const AppBar = (props: MyProps) => {
+const AppBar = (props: MyProps): JSX.Element => {
     const classes = useStyles(props);
     const { children } = props;
     return (

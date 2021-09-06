@@ -1,5 +1,5 @@
 import { createStyles } from '@material-ui/core';
-const styles = () =>
+const styles = (): any =>
     createStyles({
         header: {},
     });
