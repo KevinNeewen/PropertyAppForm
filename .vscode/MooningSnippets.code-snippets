@@ -1,0 +1,36 @@
+{
+    "Create Function Component": {
+        "scope": "typescriptreact ,typescript",
+        "prefix": "fc",
+        "body": [
+            "import React from 'react';",
+            "import { withStyles, WithStyles } from '@material-ui/core';",
+            "import styles from './styles';",
+            "",
+            "interface MyProps extends WithStyles<typeof styles> {}",
+            "",
+            "const ${1:ComponentName} = (props: MyProps) => {",
+            "    const {} = props;",
+            "    return <></>;",
+            "};",
+            "",
+            "export default withStyles(styles)(${1:ComponentName});"
+        ],
+        "description": "Create Function Component"
+    },
+    "Create JSS Sheet": {
+        "scope": "typescriptreact ,typescript",
+        "prefix": "jss",
+        "body": [
+            "import { createStyles } from '@material-ui/styles';",
+            "",
+            "const styles = (): any =>",
+            "    createStyles({",
+            "        ${1:sheetName}: {},",
+            "    });",
+            "",
+            "export default styles;"
+        ],
+        "description": "Create Function Component"
+    }
+}

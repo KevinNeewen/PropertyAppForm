@@ -5,10 +5,10 @@ import Page from '../../components/Page';
 import { PropertyFormStepsEnum, PropertyFormStepsToDescriptionMap } from './types';
 import Stepper from './components/Stepper';
 import BlueWavePrimarySvg from '../../components/SVG/BlueWavePrimarySvg';
-import Form from './components/Forms/Form';
+import SubForm from './components/Forms/SubForm';
 import styles from './styles';
 import ScreenHelper from '../../utils/screenHelper';
-import { Formik } from 'formik';
+import { Formik, Form } from 'formik';
 import { initialValues } from './initialValues';
 
 interface MyProps extends WithStyles<typeof styles> {}
@@ -155,11 +155,13 @@ const PropertyFormPage = (props: MyProps) => {
         >
             {(props) => {
                 {
-                    <form onSubmit={props.handleSubmit}>
-                        {scrollableSteps.map((step) =>
-                            renderSubForm(PropertyFormStepsToDescriptionMap[step], step, step === activeStep),
-                        )}
-                    </form>;
+                    return (
+                        <Form onSubmit={props.handleSubmit}>
+                            {scrollableSteps.map((step) =>
+                                renderSubForm(PropertyFormStepsToDescriptionMap[step], step, step === activeStep),
+                            )}
+                        </Form>
+                    );
                 }
             }}
         </Formik>
@@ -170,7 +172,7 @@ const PropertyFormPage = (props: MyProps) => {
             return (
                 <>
                     <Grid id={`#formpage-${index}`} classes={{ root: classes.formSectionDetail }} item xs={9}>
-                        <Form //
+                        <SubForm //
                             classes={{ root: !active ? classes.formSectionDetailContainer : classes.formDetailActive }}
                             title={title}
                             previousButton={

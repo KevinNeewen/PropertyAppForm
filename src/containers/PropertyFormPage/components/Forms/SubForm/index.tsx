@@ -1,10 +1,12 @@
 import React from 'react';
 import { withStyles, WithStyles } from '@material-ui/styles';
-import { Container } from '@material-ui/core';
+import { Container, TextField } from '@material-ui/core';
 import Header from '../../../../../components/Header';
 import Button from '../../../../../components/Button';
 import styles from './styles';
 import { FormButton } from './types';
+import { useFormikContext } from 'formik';
+import { PropertyForm } from '../../../types';
 
 interface MyProps extends WithStyles<typeof styles> {
     title: string;
@@ -12,8 +14,10 @@ interface MyProps extends WithStyles<typeof styles> {
     nextButton?: FormButton;
 }
 
-const FormContainer = (props: MyProps) => {
+const SubFormContainer = (props: MyProps) => {
     const { title, classes, nextButton, previousButton } = props;
+
+    const { values } = useFormikContext<PropertyForm>();
 
     const renderFormButtons = () => {
         return (
@@ -41,10 +45,18 @@ const FormContainer = (props: MyProps) => {
     return (
         <Container classes={{ root: classes.root }} disableGutters fixed>
             <Header variant="h1">{title}</Header>
-            <div className={classes.form}></div>
+            <div className={classes.form}>
+                <TextField //
+                    id="PropertyType"
+                    name="PropertyType"
+                    label="PropertyType"
+                    value={values.PropertyInformation.propertyType}
+                    type="select"
+                />
+            </div>
             {renderFormButtons()}
         </Container>
     );
 };
 
-export default withStyles(styles)(FormContainer);
+export default withStyles(styles)(SubFormContainer);

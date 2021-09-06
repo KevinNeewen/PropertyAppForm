@@ -26,3 +26,23 @@ export enum PurposeOfProperty {
     Investment,
     PrimaryResidence,
 }
+
+export interface PropertyForm {
+    PropertyInformation: PropertyInformationForm;
+    ValuationAndRent: ValuationAndRentForm;
+}
+
+export interface PropertyInformationForm {
+    propertyType: PropertyTypeEnum;
+    bedrooms: number;
+    bathrooms: number;
+    parking: number;
+}
+
+export interface ValuationAndRentForm {
+    purchasePrice: number;
+    currentValuation: number;
+    purposeOfProperty: PurposeOfProperty;
+    RentAtPurchase: number;
+    CurrentRent: number;
+}
