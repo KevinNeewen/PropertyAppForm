@@ -17,7 +17,7 @@ const GetStartedPage = (props: MyProps): JSX.Element => {
                 <NavLink classes={{ button: classes.getStartedButton }} to={'/propertyForm'}>
                     Get Started
                 </NavLink>
-                <NavLink invisible to="/">
+                <NavLink invisible to="/propertySnapshot">
                     Login
                 </NavLink>
             </Box>
