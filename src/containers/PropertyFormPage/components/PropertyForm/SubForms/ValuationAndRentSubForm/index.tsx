@@ -9,9 +9,8 @@ interface MyProps extends WithStyles<typeof styles> {
     handleNextStep: (currentStep: PropertyFormStepsEnum) => (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const PropertyInformationSubForm = (props: MyProps) => {
-    const step = PropertyFormStepsEnum.PropertyInformation;
-
+const ValuationAndRentSubForm = (props: MyProps) => {
+    const step = PropertyFormStepsEnum.ValuationAndRent;
     const title = PropertyFormStepsToDescriptionMap[step];
 
     const {
@@ -20,19 +19,14 @@ const PropertyInformationSubForm = (props: MyProps) => {
         handleNextStep,
         handlePrevStep,
     } = props;
-
     return (
         <SubForm //
             step={step}
             title={title}
-            previousButton={
-                step !== 0
-                    ? {
-                          text: 'Back',
-                          onClick: handlePrevStep(step),
-                      }
-                    : undefined
-            }
+            previousButton={{
+                text: 'Back',
+                onClick: handlePrevStep(step),
+            }}
             nextButton={{
                 text: 'Next',
                 onClick: handleNextStep(step),
@@ -41,4 +35,4 @@ const PropertyInformationSubForm = (props: MyProps) => {
     );
 };
 
-export default withStyles(styles)(PropertyInformationSubForm);
+export default withStyles(styles)(ValuationAndRentSubForm);

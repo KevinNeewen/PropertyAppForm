@@ -1,10 +1,11 @@
 import React, { useCallback } from 'react';
-import { Container, Grid, withStyles, WithStyles } from '@material-ui/core';
+import { withStyles, WithStyles } from '@material-ui/core';
 import styles from './styles';
 import { Formik, Form } from 'formik';
 import { initialValues } from '../../initialValues';
-import { PropertyFormStepsEnum, PropertyFormStepsToDescriptionMap } from '../../types';
-import SubForm from './SubForms';
+import { PropertyFormStepsEnum } from '../../types';
+import PropertyInformationSubForm from './SubForms/PropertyInformationSubForm';
+import ValuationAndRentSubForm from './SubForms/ValuationAndRentSubForm';
 
 interface MyProps extends WithStyles<typeof styles> {
     activeStep: PropertyFormStepsEnum;
@@ -24,31 +25,19 @@ const PropertyForm = (props: MyProps) => {
     } = props;
 
     const renderSubForm = useCallback(
-        (title: string, index: number, isActive: boolean) => {
-            return (
-                <>
-                    <Container id={`#formpage-${index}`} classes={{ root: classes.subFormContainer }}>
-                        <SubForm //
-                            classes={{
-                                root: !isActive ? classes.subForm : classes.subFormActive,
-                            }}
-                            title={title}
-                            previousButton={
-                                index !== 0
-                                    ? {
-                                          text: 'Back',
-                                          onClick: handlePrevStep(index),
-                                      }
-                                    : undefined
-                            }
-                            nextButton={{
-                                text: 'Next',
-                                onClick: handleNextStep(index),
-                            }}
-                        />
-                    </Container>
-                </>
-            );
+        (step: PropertyFormStepsEnum) => {
+            const subFormPropBag = {
+                handleNextStep: handleNextStep,
+                handlePrevStep: handlePrevStep,
+            };
+            switch (step) {
+                case PropertyFormStepsEnum.PropertyInformation:
+                    return <PropertyInformationSubForm {...subFormPropBag} />;
+                case PropertyFormStepsEnum.ValuationAndRent:
+                    return <ValuationAndRentSubForm {...subFormPropBag} />;
+                default:
+                    return;
+            }
         },
         [activeStep],
     );
@@ -67,11 +56,7 @@ const PropertyForm = (props: MyProps) => {
             {(props) => {
                 {
                     return (
-                        <Form onSubmit={props.handleSubmit}>
-                            {stepsToDisplay.map((step) =>
-                                renderSubForm(PropertyFormStepsToDescriptionMap[step], step, step === activeStep),
-                            )}
-                        </Form>
+                        <Form onSubmit={props.handleSubmit}>{stepsToDisplay.map((step) => renderSubForm(step))}</Form>
                     );
                 }
             }}
@@ -79,4 +64,4 @@ const PropertyForm = (props: MyProps) => {
     );
 };
 
-export default withStyles(styles)(PropertyForm);
+export default React.memo(withStyles(styles)(PropertyForm));

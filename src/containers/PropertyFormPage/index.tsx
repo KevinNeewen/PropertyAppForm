@@ -25,7 +25,7 @@ const PropertyFormPage = (props: MyProps) => {
     const isAutomaticScroll = useRef<boolean>(true);
 
     useEffect(() => {
-        const el = document.getElementById(`#formpage-${activeStep}`);
+        const el = document.getElementById(`#subform-${activeStep}`);
 
         if (isAutomaticScroll.current) {
             el?.scrollIntoView({
@@ -126,7 +126,7 @@ const PropertyFormPage = (props: MyProps) => {
     };
 
     const setActiveStepIfInScreen = (step: PropertyFormStepsEnum) => {
-        const el = document.getElementById(`#formpage-${step}`)?.querySelector('h1');
+        const el = document.getElementById(`#subform-${step}`)?.querySelector('h1');
         if (ScreenHelper.isInViewPort(el)) {
             isAutomaticScroll.current = false;
             setActiveStep(step);
@@ -144,7 +144,7 @@ const PropertyFormPage = (props: MyProps) => {
         <Page onWheel={onScroll} classes={{ page: classes.page }} appBarContent={<div></div>}>
             <BlueWavePrimarySvg classes={{ svg: classes.blueWaveSvg }} />
             <Grid container direction="row">
-                <Grid item xs={2}>
+                <Grid item sm={3} md={2}>
                     <Stepper //
                         isComplete={isStepComplete}
                         activeStep={activeStep}
@@ -154,7 +154,7 @@ const PropertyFormPage = (props: MyProps) => {
                         isLastIncompleteStep={isLastIncompleteStep}
                     />
                 </Grid>
-                <Grid item xs={10}>
+                <Grid item sm={9} md={10}>
                     <PropertyForm //
                         activeStep={activeStep}
                         stepsToDisplay={scrollableSteps}

@@ -6,21 +6,23 @@ import Button from '../../../../../components/Button';
 import styles from './styles';
 import { FormButton } from './types';
 import { useFormikContext } from 'formik';
-import { PropertyForm } from '../../../types';
+import { PropertyForm, PropertyFormStepsEnum } from '../../../types';
 
 interface MyProps extends WithStyles<typeof styles> {
+    step: PropertyFormStepsEnum;
     title: string;
     previousButton?: FormButton;
     nextButton?: FormButton;
 }
 
-const SubFormContainer = (props: MyProps) => {
+const SubForm = (props: MyProps) => {
     const {
         //
         title,
         classes,
         nextButton,
         previousButton,
+        step,
     } = props;
 
     const { values } = useFormikContext<PropertyForm>();
@@ -49,20 +51,26 @@ const SubFormContainer = (props: MyProps) => {
     };
 
     return (
-        <Container classes={{ root: classes.root }} disableGutters fixed>
-            <Header variant="h1">{title}</Header>
-            <div className={classes.form}>
-                <TextField //
+        <Container //
+            id={`#subform-${step}`}
+            classes={{ root: classes.root }}
+            disableGutters
+            fixed
+        >
+            <div className={classes.subForm}>
+                <Header variant="h1">{title}</Header>
+                <div className={classes.subFormDetails}></div>
+                {/* <TextField //
                     id="PropertyType"
                     name="PropertyType"
                     label="PropertyType"
                     value={values.PropertyInformation.propertyType}
                     type="select"
-                />
+                /> */}
+                {renderFormButtons()}
             </div>
-            {renderFormButtons()}
         </Container>
     );
 };
 
-export default withStyles(styles)(SubFormContainer);
+export default withStyles(styles)(SubForm);
