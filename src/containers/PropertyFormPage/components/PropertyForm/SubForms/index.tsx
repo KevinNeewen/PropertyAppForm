@@ -15,7 +15,13 @@ interface MyProps extends WithStyles<typeof styles> {
 }
 
 const SubFormContainer = (props: MyProps) => {
-    const { title, classes, nextButton, previousButton } = props;
+    const {
+        //
+        title,
+        classes,
+        nextButton,
+        previousButton,
+    } = props;
 
     const { values } = useFormikContext<PropertyForm>();
 

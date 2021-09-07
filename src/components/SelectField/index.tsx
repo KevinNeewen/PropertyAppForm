@@ -4,9 +4,9 @@ import styles from './styles';
 
 interface MyProps extends WithStyles<typeof styles> {}
 
-const Select = (props: MyProps) => {
+const InputTextField = (props: MyProps) => {
     const {} = props;
 
     return <></>;
 };
-export default withStyles(styles)(Select);
+export default withStyles(styles)(InputTextField);

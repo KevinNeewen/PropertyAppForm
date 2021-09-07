@@ -1,15 +1,13 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Grid } from '@material-ui/core';
 import { WithStyles, withStyles } from '@material-ui/styles';
 import Page from '../../components/Page';
-import { PropertyFormStepsEnum, PropertyFormStepsToDescriptionMap } from './types';
 import Stepper from './components/Stepper';
 import BlueWavePrimarySvg from '../../components/SVG/BlueWavePrimarySvg';
-import SubForm from './components/Forms/SubForm';
-import styles from './styles';
 import ScreenHelper from '../../utils/screenHelper';
-import { Formik, Form } from 'formik';
-import { initialValues } from './initialValues';
+import PropertyForm from './components/PropertyForm';
+import { PropertyFormStepsEnum, PropertyFormStepsToDescriptionMap } from './types';
+import styles from './styles';
 
 interface MyProps extends WithStyles<typeof styles> {}
 
@@ -142,65 +140,11 @@ const PropertyFormPage = (props: MyProps) => {
         return false;
     };
 
-    const renderForm = () => (
-        <Formik
-            //
-            initialValues={initialValues}
-            onSubmit={(values, actions) => {
-                setTimeout(() => {
-                    alert(JSON.stringify(values, null, 2));
-                    actions.setSubmitting(false);
-                }, 1000);
-            }}
-        >
-            {(props) => {
-                {
-                    return (
-                        <Form onSubmit={props.handleSubmit}>
-                            {scrollableSteps.map((step) =>
-                                renderSubForm(PropertyFormStepsToDescriptionMap[step], step, step === activeStep),
-                            )}
-                        </Form>
-                    );
-                }
-            }}
-        </Formik>
-    );
-
-    const renderSubForm = useCallback(
-        (title: string, index: number, active: boolean) => {
-            return (
-                <>
-                    <Grid id={`#formpage-${index}`} classes={{ root: classes.formSectionDetail }} item xs={9}>
-                        <SubForm //
-                            classes={{ root: !active ? classes.formSectionDetailContainer : classes.formDetailActive }}
-                            title={title}
-                            previousButton={
-                                index !== 0
-                                    ? {
-                                          text: 'Back',
-                                          onClick: handlePrevStep(index),
-                                      }
-                                    : undefined
-                            }
-                            nextButton={{
-                                text: isLastStep(activeStep) ? 'Submit' : 'Next',
-                                onClick: handleNextStep(index),
-                            }}
-                        />
-                    </Grid>
-                    <Grid item xs={3}></Grid>
-                </>
-            );
-        },
-        [activeStep],
-    );
-
     return (
         <Page onWheel={onScroll} classes={{ page: classes.page }} appBarContent={<div></div>}>
             <BlueWavePrimarySvg classes={{ svg: classes.blueWaveSvg }} />
-            <Grid classes={{ root: classes.formPageGrid }} container direction="row">
-                <Grid item xs={3}>
+            <Grid container direction="row">
+                <Grid item xs={2}>
                     <Stepper //
                         isComplete={isStepComplete}
                         activeStep={activeStep}
@@ -210,7 +154,14 @@ const PropertyFormPage = (props: MyProps) => {
                         isLastIncompleteStep={isLastIncompleteStep}
                     />
                 </Grid>
-                {renderForm()}
+                <Grid item xs={10}>
+                    <PropertyForm //
+                        activeStep={activeStep}
+                        stepsToDisplay={scrollableSteps}
+                        handleNextStep={handleNextStep}
+                        handlePrevStep={handlePrevStep}
+                    />
+                </Grid>
             </Grid>
         </Page>
     );
