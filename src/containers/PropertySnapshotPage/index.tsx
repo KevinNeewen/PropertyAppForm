@@ -3,7 +3,8 @@ import useStyles from './styles';
 import Page from '../../components/Page';
 import Header from '../../components/Header';
 import PropertySnapshotHeader from './components/PropertySnapshotHeader';
-import { Container, Box } from '@material-ui/core';
+import PropertySnapshotGraphConainer from './components/PropertySnapshotGraphContainer';
+import { Container, Grid } from '@material-ui/core';
 import BlueWaveSecondarySvg from '../../components/SVG/BlueWaveSecondarySvg';
 import { PropertyTypeEnum, PropertyInformationForm } from '../PropertyFormPage/types'; // TODO: Consolidate types as Domain objects
 import { PropertyAddress } from './types';
@@ -37,10 +38,15 @@ const PropertySnapshotPage = (props: MyProps): JSX.Element => {
         classes={{ toolBar: classes.toolBar }}
         appBarContent={renderAppBarContent()}
     >
-        <PropertySnapshotHeader
-        propertyInformation={defaultInfo}
-        propertyAddress={defaultAddress}
-        classes={{ header: classes.header }} />
+        <Grid container item xs={12} justify="center">
+            <PropertySnapshotHeader         
+                propertyInformation={defaultInfo}
+                propertyAddress={defaultAddress}
+                classes={{ header: classes.header }} />
+        </Grid>
+        <Grid container item xs={12} spacing={3} justify="center">
+            <PropertySnapshotGraphConainer />
+        </Grid>
         <Container //
             disableGutters
             maxWidth={false}
