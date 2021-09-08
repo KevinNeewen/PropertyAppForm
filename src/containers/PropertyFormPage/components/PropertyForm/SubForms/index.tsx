@@ -1,18 +1,18 @@
 import React from 'react';
 import { withStyles, WithStyles } from '@material-ui/styles';
-import { Container, TextField } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 import Header from '../../../../../components/Header';
 import Button from '../../../../../components/Button';
 import styles from './styles';
 import { FormButton } from './types';
-import { useFormikContext } from 'formik';
-import { PropertyForm, PropertyFormStepsEnum } from '../../../types';
+import { PropertyFormStepsEnum } from '../../../types';
 
 interface MyProps extends WithStyles<typeof styles> {
     step: PropertyFormStepsEnum;
     title: string;
     previousButton?: FormButton;
     nextButton?: FormButton;
+    children: React.ReactNode;
 }
 
 const SubForm = (props: MyProps) => {
@@ -23,9 +23,8 @@ const SubForm = (props: MyProps) => {
         nextButton,
         previousButton,
         step,
+        children,
     } = props;
-
-    const { values } = useFormikContext<PropertyForm>();
 
     const renderFormButtons = () => {
         return (
@@ -59,14 +58,8 @@ const SubForm = (props: MyProps) => {
         >
             <div className={classes.subForm}>
                 <Header variant="h1">{title}</Header>
-                <div className={classes.subFormDetails}></div>
-                {/* <TextField //
-                    id="PropertyType"
-                    name="PropertyType"
-                    label="PropertyType"
-                    value={values.PropertyInformation.propertyType}
-                    type="select"
-                /> */}
+                <div className={classes.subFormDetails}>{children}</div>
+
                 {renderFormButtons()}
             </div>
         </Container>

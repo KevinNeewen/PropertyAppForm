@@ -2,7 +2,7 @@ import { createStyles } from '@material-ui/styles';
 
 const styles = (): any =>
     createStyles({
-        select: {},
+        inputfield: {},
     });
 
 export default styles;

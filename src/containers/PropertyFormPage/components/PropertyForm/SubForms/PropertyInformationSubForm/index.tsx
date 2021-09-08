@@ -1,8 +1,11 @@
 import React from 'react';
-import { Container, withStyles, WithStyles } from '@material-ui/core';
+import { withStyles, WithStyles } from '@material-ui/core';
 import SubForm from '../index';
 import styles from './styles';
-import { PropertyFormStepsEnum, PropertyFormStepsToDescriptionMap } from '../../../../types';
+import { PropertyFormStepsEnum, PropertyFormStepsToDescriptionMap, PropertyTypeEnum } from '../../../../types';
+import SelectField from '../../../../../../components/SelectField';
+import { useFormikContext } from 'formik';
+import EnumHelper from '../../../../../../utils/EnumHelper';
 
 interface MyProps extends WithStyles<typeof styles> {
     handlePrevStep: (currentStep: PropertyFormStepsEnum) => (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -10,13 +13,28 @@ interface MyProps extends WithStyles<typeof styles> {
 }
 
 const PropertyInformationSubForm = (props: MyProps) => {
+    // const [subForm, setSubForm] = useState<PropertyInformationSubForm>();
+
+    const formikProps = useFormikContext();
+
+    console.log(formikProps);
+
     const step = PropertyFormStepsEnum.PropertyInformation;
 
     const title = PropertyFormStepsToDescriptionMap[step];
 
+    const getOptions = () => {
+        return EnumHelper.getMemberNamesOnly(PropertyTypeEnum).map((type) => ({
+            value: type,
+        }));
+    };
+
+    const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+        console.log(event.target.value);
+    };
+
     const {
         //
-        classes,
         handleNextStep,
         handlePrevStep,
     } = props;
@@ -37,7 +55,17 @@ const PropertyInformationSubForm = (props: MyProps) => {
                 text: 'Next',
                 onClick: handleNextStep(step),
             }}
-        />
+        >
+            <SelectField //
+                id="propertyInformation-propertyType"
+                handleChange={handleChange}
+                value={PropertyTypeEnum.House.toString()}
+                options={getOptions()}
+                defaultValue={PropertyTypeEnum.House.toString()}
+                label="Property type"
+                fullWidth
+            />
+        </SubForm>
     );
 };
 

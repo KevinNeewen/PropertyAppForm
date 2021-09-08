@@ -17,7 +17,6 @@ interface MyProps extends WithStyles<typeof styles> {
 const PropertyForm = (props: MyProps) => {
     const {
         //
-        classes,
         activeStep,
         stepsToDisplay,
         handleNextStep,
@@ -32,9 +31,9 @@ const PropertyForm = (props: MyProps) => {
             };
             switch (step) {
                 case PropertyFormStepsEnum.PropertyInformation:
-                    return <PropertyInformationSubForm {...subFormPropBag} />;
+                    return <PropertyInformationSubForm key={step} {...subFormPropBag} />;
                 case PropertyFormStepsEnum.ValuationAndRent:
-                    return <ValuationAndRentSubForm {...subFormPropBag} />;
+                    return <ValuationAndRentSubForm key={step} {...subFormPropBag} />;
                 default:
                     return;
             }

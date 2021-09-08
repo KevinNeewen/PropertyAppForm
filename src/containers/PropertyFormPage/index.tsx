@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useLayoutEffect, useRef } from 'react';
 import { Grid } from '@material-ui/core';
 import { WithStyles, withStyles } from '@material-ui/styles';
 import Page from '../../components/Page';
 import Stepper from './components/Stepper';
 import BlueWavePrimarySvg from '../../components/SVG/BlueWavePrimarySvg';
-import ScreenHelper from '../../utils/screenHelper';
+import ScreenHelper from '../../utils/ScreenHelper';
 import PropertyForm from './components/PropertyForm';
 import { PropertyFormStepsEnum, PropertyFormStepsToDescriptionMap } from './types';
 import styles from './styles';
@@ -24,7 +24,7 @@ const PropertyFormPage = (props: MyProps) => {
 
     const isAutomaticScroll = useRef<boolean>(true);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const el = document.getElementById(`#subform-${activeStep}`);
 
         if (isAutomaticScroll.current) {

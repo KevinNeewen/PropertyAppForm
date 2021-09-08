@@ -1,5 +1,4 @@
-export const isInViewPort = (element: HTMLElement | null | undefined): boolean => {
-    // debugger;
+const isInViewPort = (element: HTMLElement | null | undefined): boolean => {
     if (!element) {
         return false;
     }

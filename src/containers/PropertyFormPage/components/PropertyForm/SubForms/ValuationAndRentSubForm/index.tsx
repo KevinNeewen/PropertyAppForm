@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, withStyles, WithStyles } from '@material-ui/core';
+import { withStyles, WithStyles } from '@material-ui/core';
 import SubForm from '../index';
 import styles from './styles';
 import { PropertyFormStepsEnum, PropertyFormStepsToDescriptionMap } from '../../../../types';
@@ -15,7 +15,6 @@ const ValuationAndRentSubForm = (props: MyProps) => {
 
     const {
         //
-        classes,
         handleNextStep,
         handlePrevStep,
     } = props;
@@ -31,7 +30,9 @@ const ValuationAndRentSubForm = (props: MyProps) => {
                 text: 'Next',
                 onClick: handleNextStep(step),
             }}
-        />
+        >
+            <div></div>
+        </SubForm>
     );
 };
 
