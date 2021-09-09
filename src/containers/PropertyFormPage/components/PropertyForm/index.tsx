@@ -24,16 +24,16 @@ const PropertyForm = (props: MyProps) => {
     } = props;
 
     const renderSubForm = useCallback(
-        (step: PropertyFormStepsEnum) => {
+        (step, props) => {
             const subFormPropBag = {
                 handleNextStep: handleNextStep,
                 handlePrevStep: handlePrevStep,
             };
             switch (step) {
                 case PropertyFormStepsEnum.PropertyInformation:
-                    return <PropertyInformationSubForm key={step} {...subFormPropBag} />;
+                    return <PropertyInformationSubForm key={step} {...subFormPropBag} {...props} />;
                 case PropertyFormStepsEnum.ValuationAndRent:
-                    return <ValuationAndRentSubForm key={step} {...subFormPropBag} />;
+                    return <ValuationAndRentSubForm key={step} {...subFormPropBag} {...props} />;
                 default:
                     return;
             }
@@ -55,7 +55,9 @@ const PropertyForm = (props: MyProps) => {
             {(props) => {
                 {
                     return (
-                        <Form onSubmit={props.handleSubmit}>{stepsToDisplay.map((step) => renderSubForm(step))}</Form>
+                        <Form onSubmit={props.handleSubmit}>
+                            {stepsToDisplay.map((step) => renderSubForm(step, props))}
+                        </Form>
                     );
                 }
             }}

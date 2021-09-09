@@ -17,37 +17,37 @@ export const PropertyFormStepsToDescriptionMap = {
 };
 
 export enum PropertyTypeEnum {
-    House,
-    Townhouse,
-    Apartment,
+    House = 'House',
+    Townhouse = 'Townhouse',
+    Apartment = 'Apartment',
 }
 
-export enum PurposeOfProperty {
-    Investment,
-    PrimaryResidence,
+export enum PurposeOfPropertyEnum {
+    Investment = 'Investment',
+    PrimaryResidence = 'Primary residence',
 }
 
-export enum LoanType {
+export enum LoanTypeEnum {
     PrincipleAndInterest,
     InterestOnly,
 }
 
-export interface PropertyForm {
-    propertyInformation: PropertyInformationSubForm;
-    valuationAndRent: ValuationAndRentSubForm;
+export interface PropertyFormValues {
+    propertyInformation: PropertyInformationSubFormValues;
+    valuationAndRent: ValuationAndRentSubFormValues;
 }
 
-export interface PropertyInformationSubForm {
+export interface PropertyInformationSubFormValues {
     propertyType: PropertyTypeEnum;
     bedrooms: number;
     bathrooms: number;
     parking: number;
 }
 
-export interface ValuationAndRentSubForm {
+export interface ValuationAndRentSubFormValues {
     purchasePrice: number;
     currentValuation: number;
-    purposeOfProperty: PurposeOfProperty;
-    RentAtPurchase: number;
-    CurrentRent: number;
+    purposeOfProperty: PurposeOfPropertyEnum;
+    rentAtPurchase: number;
+    currentRent: number;
 }

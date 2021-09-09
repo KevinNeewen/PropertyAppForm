@@ -1,36 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { withStyles, WithStyles } from '@material-ui/core';
 import SubForm from '../index';
 import styles from './styles';
-import { PropertyFormStepsEnum, PropertyFormStepsToDescriptionMap, PropertyTypeEnum } from '../../../../types';
+import {
+    PropertyFormStepsEnum,
+    PropertyFormStepsToDescriptionMap,
+    PropertyTypeEnum,
+    PropertyFormValues,
+    PropertyInformationSubFormValues,
+} from '../../../../types';
 import SelectField from '../../../../../../components/SelectField';
-import { useFormikContext } from 'formik';
-import EnumHelper from '../../../../../../utils/EnumHelper';
+import { FormikProps, useFormikContext } from 'formik';
 
-interface MyProps extends WithStyles<typeof styles> {
+interface PropertyInformationSubForm {
     handlePrevStep: (currentStep: PropertyFormStepsEnum) => (event: React.MouseEvent<HTMLButtonElement>) => void;
     handleNextStep: (currentStep: PropertyFormStepsEnum) => (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
+type MyProps = PropertyInformationSubForm & WithStyles<typeof styles> & FormikProps<PropertyFormValues>;
+
 const PropertyInformationSubForm = (props: MyProps) => {
-    // const [subForm, setSubForm] = useState<PropertyInformationSubForm>();
-
-    const formikProps = useFormikContext();
-
-    console.log(formikProps);
-
+    const formikProps: FormikProps<PropertyFormValues> = useFormikContext();
+    const [subForm, setSubForm] = useState<PropertyInformationSubFormValues>({
+        ...formikProps.initialValues.propertyInformation,
+    });
     const step = PropertyFormStepsEnum.PropertyInformation;
 
     const title = PropertyFormStepsToDescriptionMap[step];
 
-    const getOptions = () => {
-        return EnumHelper.getMemberNamesOnly(PropertyTypeEnum).map((type) => ({
+    const getPropertyTypeOptions = () => {
+        return Object.values(PropertyTypeEnum).map((type) => ({
             value: type,
         }));
     };
 
-    const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-        console.log(event.target.value);
+    const getRoomOptions = () => {
+        let i = 0;
+        const roomOptions = [];
+        while (i < 6) {
+            roomOptions.push({ value: i, name: i.toString() });
+            i++;
+        }
+        roomOptions.push({ value: 100, name: '7+' });
+        return roomOptions;
+    };
+
+    const handleChange = (event: React.ChangeEvent<{ value: unknown; name?: string }>) => {
+        const subFormField = event.target.name!.split('.')[1];
+        setSubForm({ ...subForm, [subFormField]: event.target.value });
     };
 
     const {
@@ -57,12 +74,35 @@ const PropertyInformationSubForm = (props: MyProps) => {
             }}
         >
             <SelectField //
-                id="propertyInformation-propertyType"
+                id="propertyInformation.propertyType"
                 handleChange={handleChange}
-                value={PropertyTypeEnum.House.toString()}
-                options={getOptions()}
-                defaultValue={PropertyTypeEnum.House.toString()}
+                value={subForm.propertyType}
+                options={getPropertyTypeOptions()}
                 label="Property type"
+                fullWidth
+            />
+            <SelectField //
+                id="propertyInformation.bedrooms"
+                handleChange={handleChange}
+                value={subForm.bedrooms}
+                options={getRoomOptions()}
+                label="Bedrooms"
+                fullWidth
+            />
+            <SelectField //
+                id="propertyInformation.bathrooms"
+                handleChange={handleChange}
+                value={subForm.bathrooms}
+                options={getRoomOptions()}
+                label="Bathrooms"
+                fullWidth
+            />
+            <SelectField //
+                id="propertyInformation.parking"
+                handleChange={handleChange}
+                value={subForm.parking}
+                options={getRoomOptions()}
+                label="Parking"
                 fullWidth
             />
         </SubForm>

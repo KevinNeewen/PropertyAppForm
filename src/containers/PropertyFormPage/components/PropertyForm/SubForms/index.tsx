@@ -4,14 +4,14 @@ import { Container } from '@material-ui/core';
 import Header from '../../../../../components/Header';
 import Button from '../../../../../components/Button';
 import styles from './styles';
-import { FormButton } from './types';
+import { FormButtonType } from './types';
 import { PropertyFormStepsEnum } from '../../../types';
 
 interface MyProps extends WithStyles<typeof styles> {
     step: PropertyFormStepsEnum;
     title: string;
-    previousButton?: FormButton;
-    nextButton?: FormButton;
+    previousButton?: FormButtonType;
+    nextButton?: FormButtonType;
     children: React.ReactNode;
 }
 

@@ -1,16 +1,16 @@
-import { LoanType, PropertyTypeEnum, PurposeOfProperty } from './types';
+import { LoanTypeEnum, PropertyTypeEnum, PurposeOfPropertyEnum } from './types';
 
 export const initialValues = {
     propertyInformation: {
         propertyType: PropertyTypeEnum.House,
-        bedrooms: 0,
-        bathrooms: 0,
-        parking: 0,
+        bedrooms: 3,
+        bathrooms: 2,
+        parking: 2,
     },
     valuationAndRent: {
         purchasePrice: 500000,
         currentValuation: 500000,
-        purposeOfProperty: PurposeOfProperty.Investment,
+        purposeOfProperty: PurposeOfPropertyEnum.Investment,
         rentAtPurchase: 400,
         currentRent: 400,
     },
@@ -18,7 +18,7 @@ export const initialValues = {
         originalLoan: 500000,
         currentLoan: 500000,
         remainingLoanLength: 30,
-        loanType: LoanType.PrincipleAndInterest,
+        loanType: LoanTypeEnum.PrincipleAndInterest,
         interestRate: 2.64,
     },
     operatingExpenses: {

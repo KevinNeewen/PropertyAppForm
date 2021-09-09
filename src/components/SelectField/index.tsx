@@ -1,7 +1,8 @@
 import React from 'react';
-import { FormControl, InputLabel, MenuItem, Select, withStyles, WithStyles } from '@material-ui/core';
+import { MenuItem, TextField, withStyles, WithStyles } from '@material-ui/core';
 import styles from './styles';
 import { SelectFieldOption } from './types';
+import { values } from 'lodash';
 
 interface MyProps extends WithStyles<typeof styles> {
     id: string;
@@ -11,7 +12,6 @@ interface MyProps extends WithStyles<typeof styles> {
     variant?: 'filled' | 'outlined' | 'standard';
     focused?: boolean;
     required?: boolean;
-    defaultValue: any;
     options: SelectFieldOption[];
     fullWidth?: boolean;
 }
@@ -24,36 +24,26 @@ const SelectField = (props: MyProps) => {
         label,
         handleChange,
         value,
-        required,
-        variant,
-        focused,
-        defaultValue,
         options,
         fullWidth,
     } = props;
 
     return (
-        <FormControl //
-            focused={focused}
-            variant={variant}
-            required={required}
+        <TextField //
+            id={id}
+            select
+            label={label}
+            name={id}
+            onChange={handleChange}
+            value={value}
             fullWidth={fullWidth}
-            classes={{ root: classes.root }}
         >
-            <InputLabel htmlFor={id}>{label}</InputLabel>
-            <Select //
-                id={id}
-                onChange={handleChange}
-                value={value}
-                defaultValue={defaultValue}
-            >
-                {options.map((o) => (
-                    <MenuItem key={o.value} value={o.value}>
-                        {o.value ?? o.name}
-                    </MenuItem>
-                ))}
-            </Select>
-        </FormControl>
+            {options.map((o) => (
+                <MenuItem key={o.value} value={o.value}>
+                    {o.name ?? o.value}
+                </MenuItem>
+            ))}
+        </TextField>
     );
 };
 export default withStyles(styles)(SelectField);
