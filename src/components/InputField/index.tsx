@@ -11,17 +11,20 @@ interface MyProps extends WithStyles<typeof styles> {
     focused?: boolean;
     required?: boolean;
     fullWidth?: boolean;
+    error?: {
+        message: string;
+    };
 }
 
 const InputField = (props: MyProps) => {
     const {
         //
-        classes,
         id,
         label,
         handleChange,
         value,
         fullWidth,
+        error,
     } = props;
 
     return (
@@ -32,6 +35,8 @@ const InputField = (props: MyProps) => {
             onChange={handleChange}
             value={value}
             fullWidth={fullWidth}
+            error={error != null}
+            helperText={error != null ? error.message : null}
         />
     );
 };

@@ -28,26 +28,55 @@ export enum PurposeOfPropertyEnum {
 }
 
 export enum LoanTypeEnum {
-    PrincipleAndInterest,
-    InterestOnly,
+    PrincipleAndInterest = 'Principle and interest',
+    InterestOnly = 'Interest only (coming soon...)',
 }
 
-export interface PropertyFormValues {
+export interface PropertyFormValues extends Record<string, any> {
     propertyInformation: PropertyInformationSubFormValues;
     valuationAndRent: ValuationAndRentSubFormValues;
+    loanInformation: LoanInformationSubFormValues;
+    operatingExpenses: OperatingExpensesSubFormValues;
+    assumptions: AssumptionsSubFormValues;
 }
 
-export interface PropertyInformationSubFormValues {
+export interface PropertyInformationSubFormValues extends Record<string, any> {
     propertyType: PropertyTypeEnum;
     bedrooms: number;
     bathrooms: number;
     parking: number;
 }
 
-export interface ValuationAndRentSubFormValues {
+export interface ValuationAndRentSubFormValues extends Record<string, any> {
     purchasePrice: number;
     currentValuation: number;
     purposeOfProperty: PurposeOfPropertyEnum;
     rentAtPurchase: number;
     currentRent: number;
+}
+
+export interface LoanInformationSubFormValues extends Record<string, any> {
+    originalLoan: number;
+    currentLoan: number;
+    remainingLoanLength: number;
+    loanType: LoanTypeEnum;
+    interestRate: number;
+}
+
+export interface OperatingExpensesSubFormValues extends Record<string, any> {
+    propertyManagementFee: number;
+    insurance: number;
+    repairs: number;
+    landTax: number;
+    waterRates: number;
+    strataFees: number;
+    councilRates: number;
+}
+
+export interface AssumptionsSubFormValues extends Record<string, any> {
+    growthRate: number;
+    rentGrowth: number;
+    loanTerms: number;
+    effectiveTaxRate: number;
+    cpi: number;
 }

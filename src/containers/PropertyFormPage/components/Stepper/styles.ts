@@ -22,7 +22,7 @@ const styles = (theme: Theme): any =>
                     },
                 },
                 fontWeight: 600,
-                color: '#C4CCF8',
+                color: theme.palette.primary.light,
                 '&-iconContainer': {
                     '& svg': {
                         fontSize: '1.3rem',
@@ -41,13 +41,13 @@ const styles = (theme: Theme): any =>
             flexDirection: 'row-reverse',
 
             '& .MuiStepLabel': {
-                color: '#C4CCF8',
+                color: theme.palette.colors.darkBlue,
                 '&-completed': {
-                    color: '#232D42',
+                    color: theme.palette.colors.darkBlue,
                 },
                 '&-active': {
                     fontWeight: 600,
-                    color: '#232D42',
+                    color: theme.palette.colors.darkBlue,
                 },
                 '&-labelContainer': {
                     width: 'auto',
@@ -60,7 +60,7 @@ const styles = (theme: Theme): any =>
                         fontSize: '1.3rem',
                         marginLeft: '.6rem',
                         fill: 'transparent',
-                        border: `2px solid #C4CCF8`,
+                        border: `2px solid ${theme.palette.primary.light}`,
                         borderRadius: '5rem',
                         '& text': {
                             display: 'none',
@@ -76,7 +76,7 @@ const styles = (theme: Theme): any =>
                         },
 
                         '&-completed': {
-                            fill: '#1AA053',
+                            fill: theme.palette.colors.green,
                             border: 'none',
                             fontSize: '1.7rem',
                         },
@@ -91,8 +91,8 @@ const styles = (theme: Theme): any =>
             '& .MuiStepConnector-line': {
                 float: 'right',
                 marginRight: '1.4rem',
-                border: '1px solid #C4CCF8',
-                backgroundColor: '#C4CCF8',
+                border: `1px solid ${theme.palette.primary.light}`,
+                backgroundColor: theme.palette.primary.light,
             },
         },
     });

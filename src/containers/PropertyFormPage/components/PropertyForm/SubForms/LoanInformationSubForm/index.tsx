@@ -3,32 +3,34 @@ import { withStyles, WithStyles } from '@material-ui/core';
 import SubForm from '../index';
 import styles from './styles';
 import {
+    LoanTypeEnum,
     PropertyFormStepsEnum,
     PropertyFormStepsToDescriptionMap,
     PropertyFormValues,
-    PurposeOfPropertyEnum,
 } from '../../../../types';
 import { FormikProps, useFormikContext } from 'formik';
 import InputField from '../../../../../../components/InputField';
 import SelectField from '../../../../../../components/SelectField';
 import validator from './validator';
 
-interface ValuationAndRentSubForm {
+interface LoanInformationSubForm {
     handlePrevStep: (currentStep: PropertyFormStepsEnum) => (event: React.MouseEvent<HTMLButtonElement>) => void;
     handleNextStep: (currentStep: PropertyFormStepsEnum) => (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-type MyProps = ValuationAndRentSubForm & WithStyles<typeof styles> & FormikProps<PropertyFormValues>;
+type MyProps = LoanInformationSubForm & WithStyles<typeof styles> & FormikProps<PropertyFormValues>;
 
-const ValuationAndRentSubForm = (props: MyProps) => {
+const LoanInformationSubForm = (props: MyProps) => {
     const formikProps: FormikProps<PropertyFormValues> = useFormikContext();
-    const initialValues = formikProps.initialValues.valuationAndRent;
 
-    const step = PropertyFormStepsEnum.ValuationAndRent;
+    const initialValues = formikProps.initialValues.loanInformation;
+
+    const step = PropertyFormStepsEnum.LoanInformation;
+
     const title = PropertyFormStepsToDescriptionMap[step];
 
-    const getPurposeOfPropertyOptions = () => {
-        return Object.values(PurposeOfPropertyEnum).map((type) => ({
+    const getLoanTypeOptions = () => {
+        return Object.values(LoanTypeEnum).map((type) => ({
             value: type,
         }));
     };
@@ -57,44 +59,44 @@ const ValuationAndRentSubForm = (props: MyProps) => {
             {(subForm, hasError, handleChange) => (
                 <div>
                     <InputField //
-                        id="valuationAndRent.purchasePrice"
-                        label="Purchase price"
+                        id="loanInformation.originalLoan"
+                        label="Original loan value"
                         handleChange={handleChange}
-                        value={subForm.purchasePrice}
+                        value={subForm.originalLoan}
                         fullWidth
-                        error={hasError('purchasePrice')}
+                        error={hasError('originalLoan')}
                     />
                     <InputField //
-                        id="valuationAndRent.currentValuation"
-                        label="Current valuation"
+                        id="loanInformation.currentLoan"
+                        label="Current loan value"
                         handleChange={handleChange}
-                        value={subForm.currentValuation}
+                        value={subForm.currentLoan}
                         fullWidth
-                        error={hasError('currentValuation')}
+                        error={hasError('currentLoan')}
+                    />
+                    <InputField //
+                        id="loanInformation.remainingLoanLength"
+                        label="Remaining loan length (years)"
+                        handleChange={handleChange}
+                        value={subForm.remainingLoanLength}
+                        fullWidth
+                        error={hasError('remainingLoanLength')}
                     />
                     <SelectField //
-                        id="valuationAndRent.purposeOfProperty"
+                        id="loanInformation.loanType"
                         handleChange={handleChange}
-                        value={subForm.purposeOfProperty}
-                        options={getPurposeOfPropertyOptions()}
-                        label="Purpose of property"
+                        value={subForm.loanType}
+                        options={getLoanTypeOptions()}
+                        label="Loan type"
                         fullWidth
                     />
                     <InputField //
-                        id="valuationAndRent.rentAtPurchase"
-                        label="Rent at purchase (per week)"
+                        id="loanInformation.interestRate"
+                        label="Interest rate"
                         handleChange={handleChange}
-                        value={subForm.rentAtPurchase}
+                        value={subForm.interestRate}
                         fullWidth
-                        error={hasError('rentAtPurchase')}
-                    />
-                    <InputField //
-                        id="valuationAndRent.currentRent"
-                        label="Current rent (per week)"
-                        handleChange={handleChange}
-                        value={subForm.currentRent}
-                        fullWidth
-                        error={hasError('currentRent')}
+                        error={hasError('interestRate')}
                     />
                 </div>
             )}
@@ -102,4 +104,4 @@ const ValuationAndRentSubForm = (props: MyProps) => {
     );
 };
 
-export default withStyles(styles)(ValuationAndRentSubForm);
+export default withStyles(styles)(LoanInformationSubForm);

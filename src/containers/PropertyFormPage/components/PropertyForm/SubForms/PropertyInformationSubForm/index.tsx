@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { withStyles, WithStyles } from '@material-ui/core';
 import SubForm from '../index';
 import styles from './styles';
@@ -7,7 +7,6 @@ import {
     PropertyFormStepsToDescriptionMap,
     PropertyTypeEnum,
     PropertyFormValues,
-    PropertyInformationSubFormValues,
 } from '../../../../types';
 import SelectField from '../../../../../../components/SelectField';
 import { FormikProps, useFormikContext } from 'formik';
@@ -21,9 +20,8 @@ type MyProps = PropertyInformationSubForm & WithStyles<typeof styles> & FormikPr
 
 const PropertyInformationSubForm = (props: MyProps) => {
     const formikProps: FormikProps<PropertyFormValues> = useFormikContext();
-    const [subForm, setSubForm] = useState<PropertyInformationSubFormValues>({
-        ...formikProps.initialValues.propertyInformation,
-    });
+    const initialValues = formikProps.initialValues.propertyInformation;
+
     const step = PropertyFormStepsEnum.PropertyInformation;
 
     const title = PropertyFormStepsToDescriptionMap[step];
@@ -45,66 +43,57 @@ const PropertyInformationSubForm = (props: MyProps) => {
         return roomOptions;
     };
 
-    const handleChange = (event: React.ChangeEvent<{ value: unknown; name?: string }>) => {
-        const subFormField = event.target.name!.split('.')[1];
-        setSubForm({ ...subForm, [subFormField]: event.target.value });
-    };
-
     const {
         //
         handleNextStep,
-        handlePrevStep,
     } = props;
 
     return (
         <SubForm //
+            initialValues={initialValues}
             step={step}
             title={title}
-            previousButton={
-                step !== 0
-                    ? {
-                          text: 'Back',
-                          onClick: handlePrevStep(step),
-                      }
-                    : undefined
-            }
             nextButton={{
                 text: 'Next',
                 onClick: handleNextStep(step),
             }}
         >
-            <SelectField //
-                id="propertyInformation.propertyType"
-                handleChange={handleChange}
-                value={subForm.propertyType}
-                options={getPropertyTypeOptions()}
-                label="Property type"
-                fullWidth
-            />
-            <SelectField //
-                id="propertyInformation.bedrooms"
-                handleChange={handleChange}
-                value={subForm.bedrooms}
-                options={getRoomOptions()}
-                label="Bedrooms"
-                fullWidth
-            />
-            <SelectField //
-                id="propertyInformation.bathrooms"
-                handleChange={handleChange}
-                value={subForm.bathrooms}
-                options={getRoomOptions()}
-                label="Bathrooms"
-                fullWidth
-            />
-            <SelectField //
-                id="propertyInformation.parking"
-                handleChange={handleChange}
-                value={subForm.parking}
-                options={getRoomOptions()}
-                label="Parking"
-                fullWidth
-            />
+            {(subForm, hasError, handleChange) => (
+                <div>
+                    <SelectField
+                        id="propertyInformation.propertyType"
+                        handleChange={handleChange}
+                        value={subForm.propertyType}
+                        options={getPropertyTypeOptions()}
+                        label="Property type"
+                        fullWidth
+                    />
+                    <SelectField //
+                        id="propertyInformation.bedrooms"
+                        handleChange={handleChange}
+                        value={subForm.bedrooms}
+                        options={getRoomOptions()}
+                        label="Bedrooms"
+                        fullWidth
+                    />
+                    <SelectField //
+                        id="propertyInformation.bathrooms"
+                        handleChange={handleChange}
+                        value={subForm.bathrooms}
+                        options={getRoomOptions()}
+                        label="Bathrooms"
+                        fullWidth
+                    />
+                    <SelectField //
+                        id="propertyInformation.parking"
+                        handleChange={handleChange}
+                        value={subForm.parking}
+                        options={getRoomOptions()}
+                        label="Parking"
+                        fullWidth
+                    />
+                </div>
+            )}
         </SubForm>
     );
 };

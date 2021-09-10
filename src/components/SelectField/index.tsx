@@ -2,7 +2,6 @@ import React from 'react';
 import { MenuItem, TextField, withStyles, WithStyles } from '@material-ui/core';
 import styles from './styles';
 import { SelectFieldOption } from './types';
-import { values } from 'lodash';
 
 interface MyProps extends WithStyles<typeof styles> {
     id: string;
@@ -19,7 +18,6 @@ interface MyProps extends WithStyles<typeof styles> {
 const SelectField = (props: MyProps) => {
     const {
         //
-        classes,
         id,
         label,
         handleChange,
