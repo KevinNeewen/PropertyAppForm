@@ -2,13 +2,8 @@ import React from 'react';
 import { withStyles, WithStyles } from '@material-ui/core';
 import SubForm from '../index';
 import styles from './styles';
-import {
-    PropertyFormStepsEnum,
-    PropertyFormStepsToDescriptionMap,
-    PropertyTypeEnum,
-    PropertyFormValues,
-} from '../../../../types';
-import SelectField from '../../../../../../components/SelectField';
+import { PropertyFormStepsEnum, PropertyTypeEnum, PropertyFormValues } from '../../../../types';
+import { SelectField } from '../../../../../../components/Inputs';
 import { FormikProps, useFormikContext } from 'formik';
 
 interface PropertyInformationSubForm {
@@ -24,7 +19,7 @@ const PropertyInformationSubForm = (props: MyProps) => {
 
     const step = PropertyFormStepsEnum.PropertyInformation;
 
-    const title = PropertyFormStepsToDescriptionMap[step];
+    const title = 'Tell us a bit about your property';
 
     const getPropertyTypeOptions = () => {
         return Object.values(PropertyTypeEnum).map((type) => ({
@@ -45,11 +40,13 @@ const PropertyInformationSubForm = (props: MyProps) => {
 
     const {
         //
+        classes,
         handleNextStep,
     } = props;
 
     return (
         <SubForm //
+            classes={{ subFormDetails: classes.subFormDetails }}
             initialValues={initialValues}
             step={step}
             title={title}
@@ -59,7 +56,7 @@ const PropertyInformationSubForm = (props: MyProps) => {
             }}
         >
             {(subForm, hasError, handleChange) => (
-                <div>
+                <>
                     <SelectField
                         id="propertyInformation.propertyType"
                         handleChange={handleChange}
@@ -92,7 +89,7 @@ const PropertyInformationSubForm = (props: MyProps) => {
                         label="Parking"
                         fullWidth
                     />
-                </div>
+                </>
             )}
         </SubForm>
     );

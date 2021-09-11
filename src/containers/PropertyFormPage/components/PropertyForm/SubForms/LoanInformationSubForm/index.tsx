@@ -9,8 +9,7 @@ import {
     PropertyFormValues,
 } from '../../../../types';
 import { FormikProps, useFormikContext } from 'formik';
-import InputField from '../../../../../../components/InputField';
-import SelectField from '../../../../../../components/SelectField';
+import { SelectField, InputField } from '../../../../../../components/Inputs';
 import validator from './validator';
 
 interface LoanInformationSubForm {
@@ -37,17 +36,19 @@ const LoanInformationSubForm = (props: MyProps) => {
 
     const {
         //
+        classes,
         handleNextStep,
         handlePrevStep,
     } = props;
 
     return (
         <SubForm //
+            classes={{ subFormDetails: classes.subFormDetails }}
             initialValues={initialValues}
             step={step}
             title={title}
             previousButton={{
-                text: 'Back',
+                text: 'Previous',
                 onClick: handlePrevStep(step),
             }}
             nextButton={{
@@ -57,7 +58,7 @@ const LoanInformationSubForm = (props: MyProps) => {
             validator={validator}
         >
             {(subForm, hasError, handleChange) => (
-                <div>
+                <>
                     <InputField //
                         id="loanInformation.originalLoan"
                         label="Original loan value"
@@ -65,6 +66,7 @@ const LoanInformationSubForm = (props: MyProps) => {
                         value={subForm.originalLoan}
                         fullWidth
                         error={hasError('originalLoan')}
+                        dollarAdornment
                     />
                     <InputField //
                         id="loanInformation.currentLoan"
@@ -73,6 +75,7 @@ const LoanInformationSubForm = (props: MyProps) => {
                         value={subForm.currentLoan}
                         fullWidth
                         error={hasError('currentLoan')}
+                        dollarAdornment
                     />
                     <InputField //
                         id="loanInformation.remainingLoanLength"
@@ -97,8 +100,9 @@ const LoanInformationSubForm = (props: MyProps) => {
                         value={subForm.interestRate}
                         fullWidth
                         error={hasError('interestRate')}
+                        percentageAdornment
                     />
-                </div>
+                </>
             )}
         </SubForm>
     );

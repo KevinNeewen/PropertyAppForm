@@ -26,7 +26,6 @@ const PropertyFormPage = (props: MyProps) => {
 
     useLayoutEffect(() => {
         const el = document.getElementById(`#subform-${activeStep}`);
-
         if (isAutomaticScroll.current) {
             el?.scrollIntoView({
                 behavior: 'smooth',
@@ -141,9 +140,9 @@ const PropertyFormPage = (props: MyProps) => {
     };
 
     return (
-        <Page onWheel={onScroll} classes={{ page: classes.page }} appBarContent={<div></div>}>
+        <Page classes={{ page: classes.page }} appBarContent={<div></div>}>
             <BlueWavePrimarySvg classes={{ svg: classes.blueWaveSvg }} />
-            <Grid container direction="row">
+            <Grid classes={{ root: classes.grid }} container direction="row" onWheel={onScroll}>
                 <Grid item sm={3} md={2}>
                     <Stepper //
                         isComplete={isStepComplete}

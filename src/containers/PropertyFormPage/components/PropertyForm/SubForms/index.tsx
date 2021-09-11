@@ -46,6 +46,7 @@ const SubForm = <T extends Record<string, unknown>>(props: MyProps<T>) => {
         validator
             .validate(subForm, { abortEarly: false })
             .then(() => {
+                setErrors([]);
                 if (direction === 'Next') {
                     nextButton.onClick(event);
                 } else {
@@ -76,7 +77,7 @@ const SubForm = <T extends Record<string, unknown>>(props: MyProps<T>) => {
 
     const renderFormButtons = () => {
         return (
-            <div>
+            <div className={classes.buttons}>
                 {previousButton && (
                     <Button //
                         invisible

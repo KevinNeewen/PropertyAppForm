@@ -7,6 +7,8 @@ import { PropertyFormStepsEnum } from '../../types';
 import PropertyInformationSubForm from './SubForms/PropertyInformationSubForm';
 import ValuationAndRentSubForm from './SubForms/ValuationAndRentSubForm';
 import LoanInformationSubForm from './SubForms/LoanInformationSubForm';
+import OperatingExpensesSubForm from './SubForms/OperatingExpensesSubForm';
+import AssumptionsSubForm from './SubForms/AssumptionsSubForm';
 
 interface MyProps extends WithStyles<typeof styles> {
     activeStep: PropertyFormStepsEnum;
@@ -24,17 +26,6 @@ const PropertyForm = (props: MyProps) => {
         handlePrevStep,
     } = props;
 
-    // const validateStep =
-    //     (direction: string) => (currentStep: PropertyFormStepsEnum) => (event: React.MouseEvent<HTMLButtonElement>) => {
-    //         console.log('validateStep');
-
-    //         if (direction === 'Next') {
-    //             handleNextStep(currentStep)(event);
-    //         } else {
-    //             handlePrevStep(currentStep)(event);
-    //         }
-    //     };
-
     const renderSubForm = useCallback(
         (step, props) => {
             const subFormPropBag = {
@@ -48,6 +39,10 @@ const PropertyForm = (props: MyProps) => {
                     return <ValuationAndRentSubForm key={step} {...subFormPropBag} {...props} />;
                 case PropertyFormStepsEnum.LoanInformation:
                     return <LoanInformationSubForm key={step} {...subFormPropBag} {...props} />;
+                case PropertyFormStepsEnum.OperatingExpenses:
+                    return <OperatingExpensesSubForm key={step} {...subFormPropBag} {...props} />;
+                case PropertyFormStepsEnum.Assumptions:
+                    return <AssumptionsSubForm key={step} {...subFormPropBag} {...props} />;
                 default:
                     return;
             }

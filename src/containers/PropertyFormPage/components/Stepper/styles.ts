@@ -6,7 +6,7 @@ const styles = (theme: Theme): any =>
         stepper: {
             backgroundColor: 'inherit',
             position: 'fixed',
-            top: '23%',
+            top: '27%',
             left: '8%',
         },
         stepButton: {
@@ -27,7 +27,7 @@ const styles = (theme: Theme): any =>
                     '& svg': {
                         fontSize: '1.3rem',
                         marginLeft: '.6rem',
-                        border: `3px solid ${theme.palette.primary.main}`,
+                        border: `2px solid ${theme.palette.primary.main}`,
                         fill: 'transparent',
                         borderRadius: '5rem',
                         '& text': {

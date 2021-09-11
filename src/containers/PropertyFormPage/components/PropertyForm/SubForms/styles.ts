@@ -1,18 +1,26 @@
-import { createStyles, Theme } from '@material-ui/core';
+import { createStyles } from '@material-ui/core';
 
-const styles = (theme: Theme): any =>
+const styles = (): any =>
     createStyles({
         root: {
             height: '100vh',
         },
         subForm: {
-            paddingTop: '12rem',
+            paddingTop: '6rem',
         },
         subFormDetails: {
-            height: '40rem',
-            width: '60%',
-            border: '2px solid black',
-            backgroundColor: theme.palette.background.default,
+            marginBottom: '3rem',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            height: '45vh',
+            border: 'none',
+            marginTop: '5rem',
+        },
+        buttons: {
+            '& button': {
+                marginRight: '2rem',
+            },
         },
     });
 

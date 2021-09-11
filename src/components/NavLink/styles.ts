@@ -4,7 +4,7 @@ import { MyProps } from './index';
 
 const styles = (theme: Theme): any =>
     createStyles({
-        navLink: (props: MyProps) => ({
+        root: (props: MyProps) => ({
             padding: '1.2rem 2rem',
             borderRadius: '8.3rem',
             height: '4.4rem',

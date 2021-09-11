@@ -9,8 +9,7 @@ import {
     PurposeOfPropertyEnum,
 } from '../../../../types';
 import { FormikProps, useFormikContext } from 'formik';
-import InputField from '../../../../../../components/InputField';
-import SelectField from '../../../../../../components/SelectField';
+import { SelectField, InputField } from '../../../../../../components/Inputs';
 import validator from './validator';
 
 interface ValuationAndRentSubForm {
@@ -35,17 +34,19 @@ const ValuationAndRentSubForm = (props: MyProps) => {
 
     const {
         //
+        classes,
         handleNextStep,
         handlePrevStep,
     } = props;
 
     return (
         <SubForm //
+            classes={{ subFormDetails: classes.subFormDetails }}
             initialValues={initialValues}
             step={step}
             title={title}
             previousButton={{
-                text: 'Back',
+                text: 'Previous',
                 onClick: handlePrevStep(step),
             }}
             nextButton={{
@@ -55,7 +56,7 @@ const ValuationAndRentSubForm = (props: MyProps) => {
             validator={validator}
         >
             {(subForm, hasError, handleChange) => (
-                <div>
+                <>
                     <InputField //
                         id="valuationAndRent.purchasePrice"
                         label="Purchase price"
@@ -63,6 +64,7 @@ const ValuationAndRentSubForm = (props: MyProps) => {
                         value={subForm.purchasePrice}
                         fullWidth
                         error={hasError('purchasePrice')}
+                        dollarAdornment
                     />
                     <InputField //
                         id="valuationAndRent.currentValuation"
@@ -71,6 +73,7 @@ const ValuationAndRentSubForm = (props: MyProps) => {
                         value={subForm.currentValuation}
                         fullWidth
                         error={hasError('currentValuation')}
+                        dollarAdornment
                     />
                     <SelectField //
                         id="valuationAndRent.purposeOfProperty"
@@ -87,6 +90,7 @@ const ValuationAndRentSubForm = (props: MyProps) => {
                         value={subForm.rentAtPurchase}
                         fullWidth
                         error={hasError('rentAtPurchase')}
+                        dollarAdornment
                     />
                     <InputField //
                         id="valuationAndRent.currentRent"
@@ -95,8 +99,9 @@ const ValuationAndRentSubForm = (props: MyProps) => {
                         value={subForm.currentRent}
                         fullWidth
                         error={hasError('currentRent')}
+                        dollarAdornment
                     />
-                </div>
+                </>
             )}
         </SubForm>
     );

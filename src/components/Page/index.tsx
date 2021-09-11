@@ -7,16 +7,15 @@ import AppBar from '../AppBar';
 export interface MyProps extends WithStyles<typeof styles> {
     children: React.ReactNode;
     appBarContent: React.ReactNode;
-    onWheel?: any;
 }
 
 const Page = (props: MyProps) => {
-    const { classes, appBarContent, onWheel, children } = props;
+    const { classes, appBarContent, children } = props;
     return (
         <Container //
             className={classes.page}
             maxWidth={false}
-            onWheel={onWheel}
+            disableGutters
         >
             <AppBar //
                 classes={{ appBar: classes.appBar, toolBar: classes.toolBar }}

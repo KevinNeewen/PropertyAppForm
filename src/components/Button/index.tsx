@@ -11,14 +11,13 @@ export interface Button extends WithStyles<typeof styles> {
 }
 
 const Button = (props: Button) => {
-    const { children, classes, onClick, disabled, ...rest } = props;
+    const { children, classes, onClick, disabled } = props;
 
     return (
         <MuiButton //
             className={classes.button}
             onClick={onClick}
             disabled={disabled}
-            {...rest}
         >
             {children}
         </MuiButton>

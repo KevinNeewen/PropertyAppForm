@@ -4,11 +4,11 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     height: 100%;
+    overflow: hidden;
 }
 
 body > div {
     height: 100%;
-    overflow: hidden;
 }
 html {
     font-size: 12px;

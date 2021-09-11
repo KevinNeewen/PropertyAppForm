@@ -14,7 +14,7 @@ const NavLink = (props: MyProps) => {
 
     return (
         <ReactNavLink //
-            className={classes.navLink}
+            className={classes.root}
             to={to}
         >
             {children}
