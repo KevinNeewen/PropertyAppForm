@@ -1,10 +1,11 @@
 import React from 'react';
 import { Paper } from '@material-ui/core';
-import { Grid } from '@material-ui/core';
+import { Box, Grid, CircularProgress } from '@material-ui/core';
 import { withStyles, WithStyles } from '@material-ui/styles';
 import styles  from './styles';
 import { PropertyInformationForm } from '../../../PropertyFormPage/types'; // TODO: Consolidate types as Domain objects
 import { PropertyAddress, PropertyTypeToDescriptionMap } from '../../types';
+import PropertySnapshotDonut from '../PropertySnapshotDonut';
 
 
 interface MyProps extends WithStyles<typeof styles> {
@@ -13,8 +14,22 @@ interface MyProps extends WithStyles<typeof styles> {
 
 const PropertySnapshotVisualContainer = (props: MyProps) => {
     const classes = styles();
+
     return(
-        <React.Fragment>
+        <Box boxShadow={4} p={2} m={4} display="flex">
+            <Grid container spacing={4}>
+                <Grid item xs={4}>
+                <PropertySnapshotDonut />
+                </Grid>
+                <Grid item xs={4}>
+                <PropertySnapshotDonut />
+                </Grid>
+                <Grid item xs={4}>
+                <PropertySnapshotDonut />
+                </Grid>
+            </Grid>
+        </Box>
+        /*<React.Fragment>
             <Grid item xs={4}>
                 <Paper className={classes.paper}>item</Paper>
             </Grid>
@@ -24,7 +39,7 @@ const PropertySnapshotVisualContainer = (props: MyProps) => {
             <Grid item xs={4}>
                 <Paper className={classes.paper}>item</Paper>
             </Grid>
-        </React.Fragment>
+        </React.Fragment> */
     );
 }
 

@@ -28,11 +28,13 @@ const PropertySnapshotHeader = (props: MyProps) => {
         <div>
             <Typography //
                 variant='h2'
+                align='center'
             >
                 Property Snapshot
             </Typography>
             <Typography //
                 variant='subtitle1'
+                align='center'
             >
                 {formatPropertySnapshotSubtitle(propertyInformation, propertyAddress)}
             </Typography>
