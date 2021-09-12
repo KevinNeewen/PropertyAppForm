@@ -8,22 +8,14 @@ import {
     PropertyFormStepsToDescriptionMap,
     PropertyFormValues,
 } from '../../../../types';
-import { FormikProps, useFormikContext } from 'formik';
+import { FormikProps } from 'formik';
 import { SelectField, InputField } from '../../../../../../components/Inputs';
-import validator from './validator';
 
-interface LoanInformationSubForm {
-    handlePrevStep: (currentStep: PropertyFormStepsEnum) => (event: React.MouseEvent<HTMLButtonElement>) => void;
-    handleNextStep: (currentStep: PropertyFormStepsEnum) => (event: React.MouseEvent<HTMLButtonElement>) => void;
-}
+interface LoanInformationSubForm {}
 
 type MyProps = LoanInformationSubForm & WithStyles<typeof styles> & FormikProps<PropertyFormValues>;
 
 const LoanInformationSubForm = (props: MyProps) => {
-    const formikProps: FormikProps<PropertyFormValues> = useFormikContext();
-
-    const initialValues = formikProps.initialValues.loanInformation;
-
     const step = PropertyFormStepsEnum.LoanInformation;
 
     const title = PropertyFormStepsToDescriptionMap[step];
@@ -37,25 +29,19 @@ const LoanInformationSubForm = (props: MyProps) => {
     const {
         //
         classes,
-        handleNextStep,
-        handlePrevStep,
     } = props;
 
     return (
         <SubForm //
             classes={{ subFormDetails: classes.subFormDetails }}
-            initialValues={initialValues}
             step={step}
             title={title}
             previousButton={{
                 text: 'Previous',
-                onClick: handlePrevStep(step),
             }}
             nextButton={{
                 text: 'Next',
-                onClick: handleNextStep(step),
             }}
-            validator={validator}
         >
             {(subForm, hasError, handleChange) => (
                 <>

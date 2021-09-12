@@ -5,30 +5,30 @@ import Header from '../../../../../components/Header';
 import Button from '../../../../../components/Button';
 import styles from './styles';
 import { FormButtonType } from './types';
-import { PropertyFormStepsEnum } from '../../../types';
-import { TypeOf } from 'yup';
+import {
+    PropertyFormStepsEnum,
+    PropertyFormStepToFormFieldMap,
+    PropertyFormValues,
+    SubFormValues,
+} from '../../../types';
+import PropertyFormContext from '../../../context';
+import { FormikErrors, FormikProps, useFormikContext } from 'formik';
 
-interface SubForm<T> {
+interface SubForm {
     step: PropertyFormStepsEnum;
     title: string;
-    initialValues: T;
     previousButton?: FormButtonType;
     nextButton?: FormButtonType;
     children: (
         //
-        subForm: T,
+        subForm: SubFormValues,
         hasError: (field: string) => any,
         handleChange: (event: React.ChangeEvent<{ value: unknown; name?: string }>) => void,
     ) => React.ReactNode;
-    validator?: TypeOf<any>;
 }
 
-type MyProps<T> = SubForm<T> & WithStyles<typeof styles>;
-const SubForm = <T extends Record<string, unknown>>(props: MyProps<T>) => {
-    const [subForm, setSubForm] = useState<T>({
-        ...props.initialValues,
-    });
-
+type MyProps = SubForm & WithStyles<typeof styles>;
+const SubForm = (props: MyProps) => {
     const {
         //
         title,
@@ -36,34 +36,23 @@ const SubForm = <T extends Record<string, unknown>>(props: MyProps<T>) => {
         nextButton,
         previousButton,
         step,
-        validator,
         children,
     } = props;
 
-    const [errors, setErrors] = useState<{ field: string; message: string }[]>();
+    const formikProps: FormikProps<PropertyFormValues> = useFormikContext();
 
-    const validateStep = (direction: string) => (event: React.MouseEvent<HTMLButtonElement>) => {
-        validator
-            .validate(subForm, { abortEarly: false })
-            .then(() => {
-                setErrors([]);
-                if (direction === 'Next') {
-                    nextButton.onClick(event);
-                } else {
-                    previousButton.onClick(event);
-                }
-            })
-            .catch((error: { inner: any[] }) => {
-                const errors = error.inner.map((e: { path: any; message: any }) => ({
-                    field: e.path,
-                    message: e.message,
-                }));
-                setErrors(errors);
-            });
-    };
+    const initialValues = formikProps.values[PropertyFormStepToFormFieldMap[step]];
+
+    const subFormErrors: FormikErrors<any>[] = formikProps.errors[
+        PropertyFormStepToFormFieldMap[step]
+    ] as FormikErrors<any>[];
+
+    const [subForm, setSubForm] = useState<SubFormValues>({
+        ...initialValues,
+    });
 
     const hasError = (field: string) => {
-        const error = errors?.find((error) => error.field === field);
+        const error = subFormErrors?.find((error) => error.field === field);
         if (error) {
             return { message: error.message };
         }
@@ -75,21 +64,36 @@ const SubForm = <T extends Record<string, unknown>>(props: MyProps<T>) => {
         setSubForm({ ...subForm, [subFormField]: event.target.value });
     };
 
-    const renderFormButtons = () => {
+    const submitSubFormValuesOnClick =
+        (actions: any, direction: string) => (event: React.MouseEvent<HTMLButtonElement>) => {
+            const {
+                //
+                handleNextStep,
+                handlePrevStep,
+            } = actions;
+
+            if (direction === 'Next') {
+                handleNextStep(step, subForm)(event);
+            } else {
+                handlePrevStep(step, subForm)(event);
+            }
+        };
+
+    const renderFormButtons = (actions: any) => {
         return (
             <div className={classes.buttons}>
                 {previousButton && (
                     <Button //
                         invisible
                         disabled={previousButton.disabled}
-                        onClick={validator ? validateStep('Previous') : previousButton.onClick}
+                        onClick={submitSubFormValuesOnClick(actions, 'Previous')}
                     >
                         {previousButton.text}
                     </Button>
                 )}
                 {nextButton && (
                     <Button //
-                        onClick={validator ? validateStep('Next') : nextButton.onClick}
+                        onClick={submitSubFormValuesOnClick(actions, 'Next')}
                     >
                         {nextButton.text}
                     </Button>
@@ -99,25 +103,31 @@ const SubForm = <T extends Record<string, unknown>>(props: MyProps<T>) => {
     };
 
     return (
-        <Container //
-            id={`#subform-${step}`}
-            classes={{ root: classes.root }}
-            disableGutters
-            fixed
-        >
-            <div className={classes.subForm}>
-                <Header variant="h1">{title}</Header>
-                <div className={classes.subFormDetails}>
-                    {children(
-                        //
-                        subForm,
-                        hasError,
-                        handleChange,
-                    )}
-                </div>
-                {renderFormButtons()}
-            </div>
-        </Container>
+        <PropertyFormContext.Consumer>
+            {({ actions }) => {
+                return (
+                    <Container //
+                        id={`#subform-${step}`}
+                        classes={{ root: classes.root }}
+                        disableGutters
+                        fixed
+                    >
+                        <div className={classes.subForm}>
+                            <Header variant="h1">{title}</Header>
+                            <div className={classes.subFormDetails}>
+                                {children(
+                                    //
+                                    subForm,
+                                    hasError,
+                                    handleChange,
+                                )}
+                            </div>
+                            {renderFormButtons(actions)}
+                        </div>
+                    </Container>
+                );
+            }}
+        </PropertyFormContext.Consumer>
     );
 };
 

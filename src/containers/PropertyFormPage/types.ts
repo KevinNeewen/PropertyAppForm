@@ -7,6 +7,15 @@ export enum PropertyFormStepsEnum {
     Summary = 5,
 }
 
+export const PropertyFormStepToFormFieldMap = {
+    [PropertyFormStepsEnum.PropertyInformation]: 'propertyInformation',
+    [PropertyFormStepsEnum.ValuationAndRent]: 'valuationAndRent',
+    [PropertyFormStepsEnum.LoanInformation]: 'loanInformation',
+    [PropertyFormStepsEnum.OperatingExpenses]: 'operatingExpenses',
+    [PropertyFormStepsEnum.Assumptions]: 'assumptions',
+    [PropertyFormStepsEnum.Summary]: 'summary',
+};
+
 export const PropertyFormStepsToDescriptionMap = {
     [PropertyFormStepsEnum.PropertyInformation]: 'Property information',
     [PropertyFormStepsEnum.ValuationAndRent]: 'Valuation and rent',
@@ -39,6 +48,13 @@ export interface PropertyFormValues extends Record<string, any> {
     operatingExpenses: OperatingExpensesSubFormValues;
     assumptions: AssumptionsSubFormValues;
 }
+
+export type SubFormValues =
+    | PropertyInformationSubFormValues
+    | ValuationAndRentSubFormValues
+    | LoanInformationSubFormValues
+    | OperatingExpensesSubFormValues
+    | AssumptionsSubFormValues;
 
 export interface PropertyInformationSubFormValues extends Record<string, any> {
     propertyType: PropertyTypeEnum;

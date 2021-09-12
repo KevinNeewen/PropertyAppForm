@@ -4,7 +4,7 @@ import SubForm from '../index';
 import styles from './styles';
 import { PropertyFormStepsEnum, PropertyTypeEnum, PropertyFormValues } from '../../../../types';
 import { SelectField } from '../../../../../../components/Inputs';
-import { FormikProps, useFormikContext } from 'formik';
+import { FormikProps } from 'formik';
 
 interface PropertyInformationSubForm {
     handlePrevStep: (currentStep: PropertyFormStepsEnum) => (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -14,9 +14,6 @@ interface PropertyInformationSubForm {
 type MyProps = PropertyInformationSubForm & WithStyles<typeof styles> & FormikProps<PropertyFormValues>;
 
 const PropertyInformationSubForm = (props: MyProps) => {
-    const formikProps: FormikProps<PropertyFormValues> = useFormikContext();
-    const initialValues = formikProps.initialValues.propertyInformation;
-
     const step = PropertyFormStepsEnum.PropertyInformation;
 
     const title = 'Tell us a bit about your property';
@@ -41,18 +38,15 @@ const PropertyInformationSubForm = (props: MyProps) => {
     const {
         //
         classes,
-        handleNextStep,
     } = props;
 
     return (
         <SubForm //
             classes={{ subFormDetails: classes.subFormDetails }}
-            initialValues={initialValues}
             step={step}
             title={title}
             nextButton={{
                 text: 'Next',
-                onClick: handleNextStep(step),
             }}
         >
             {(subForm, hasError, handleChange) => (

@@ -8,21 +8,15 @@ import {
     PropertyFormValues,
     PurposeOfPropertyEnum,
 } from '../../../../types';
-import { FormikProps, useFormikContext } from 'formik';
-import { SelectField, InputField } from '../../../../../../components/Inputs';
-import validator from './validator';
 
-interface ValuationAndRentSubForm {
-    handlePrevStep: (currentStep: PropertyFormStepsEnum) => (event: React.MouseEvent<HTMLButtonElement>) => void;
-    handleNextStep: (currentStep: PropertyFormStepsEnum) => (event: React.MouseEvent<HTMLButtonElement>) => void;
-}
+import { SelectField, InputField } from '../../../../../../components/Inputs';
+import { FormikProps } from 'formik';
+
+interface ValuationAndRentSubForm {}
 
 type MyProps = ValuationAndRentSubForm & WithStyles<typeof styles> & FormikProps<PropertyFormValues>;
 
 const ValuationAndRentSubForm = (props: MyProps) => {
-    const formikProps: FormikProps<PropertyFormValues> = useFormikContext();
-    const initialValues = formikProps.initialValues.valuationAndRent;
-
     const step = PropertyFormStepsEnum.ValuationAndRent;
     const title = PropertyFormStepsToDescriptionMap[step];
 
@@ -35,25 +29,19 @@ const ValuationAndRentSubForm = (props: MyProps) => {
     const {
         //
         classes,
-        handleNextStep,
-        handlePrevStep,
     } = props;
 
     return (
         <SubForm //
             classes={{ subFormDetails: classes.subFormDetails }}
-            initialValues={initialValues}
             step={step}
             title={title}
             previousButton={{
                 text: 'Previous',
-                onClick: handlePrevStep(step),
             }}
             nextButton={{
                 text: 'Next',
-                onClick: handleNextStep(step),
             }}
-            validator={validator}
         >
             {(subForm, hasError, handleChange) => (
                 <>

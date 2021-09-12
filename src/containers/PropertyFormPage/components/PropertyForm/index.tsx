@@ -1,8 +1,7 @@
 import React, { useCallback } from 'react';
 import { withStyles, WithStyles } from '@material-ui/core';
 import styles from './styles';
-import { Formik, Form } from 'formik';
-import { initialValues } from '../../initialValues';
+import { Form } from 'formik';
 import { PropertyFormStepsEnum } from '../../types';
 import PropertyInformationSubForm from './SubForms/PropertyInformationSubForm';
 import ValuationAndRentSubForm from './SubForms/ValuationAndRentSubForm';
@@ -13,8 +12,6 @@ import AssumptionsSubForm from './SubForms/AssumptionsSubForm';
 interface MyProps extends WithStyles<typeof styles> {
     activeStep: PropertyFormStepsEnum;
     stepsToDisplay: PropertyFormStepsEnum[];
-    handlePrevStep: (currentStep: PropertyFormStepsEnum) => (event: React.MouseEvent<HTMLButtonElement>) => void;
-    handleNextStep: (currentStep: PropertyFormStepsEnum) => (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const PropertyForm = (props: MyProps) => {
@@ -22,27 +19,21 @@ const PropertyForm = (props: MyProps) => {
         //
         activeStep,
         stepsToDisplay,
-        handleNextStep,
-        handlePrevStep,
     } = props;
 
     const renderSubForm = useCallback(
         (step, props) => {
-            const subFormPropBag = {
-                handleNextStep: handleNextStep,
-                handlePrevStep: handlePrevStep,
-            };
             switch (step) {
                 case PropertyFormStepsEnum.PropertyInformation:
-                    return <PropertyInformationSubForm key={step} {...subFormPropBag} {...props} />;
+                    return <PropertyInformationSubForm key={step} {...props} />;
                 case PropertyFormStepsEnum.ValuationAndRent:
-                    return <ValuationAndRentSubForm key={step} {...subFormPropBag} {...props} />;
+                    return <ValuationAndRentSubForm key={step} {...props} />;
                 case PropertyFormStepsEnum.LoanInformation:
-                    return <LoanInformationSubForm key={step} {...subFormPropBag} {...props} />;
+                    return <LoanInformationSubForm key={step} {...props} />;
                 case PropertyFormStepsEnum.OperatingExpenses:
-                    return <OperatingExpensesSubForm key={step} {...subFormPropBag} {...props} />;
+                    return <OperatingExpensesSubForm key={step} {...props} />;
                 case PropertyFormStepsEnum.Assumptions:
-                    return <AssumptionsSubForm key={step} {...subFormPropBag} {...props} />;
+                    return <AssumptionsSubForm key={step} {...props} />;
                 default:
                     return;
             }
@@ -50,28 +41,7 @@ const PropertyForm = (props: MyProps) => {
         [activeStep],
     );
 
-    return (
-        <Formik
-            //
-            initialValues={initialValues}
-            onSubmit={(values, actions) => {
-                setTimeout(() => {
-                    alert(JSON.stringify(values, null, 2));
-                    actions.setSubmitting(false);
-                }, 1000);
-            }}
-        >
-            {(props) => {
-                {
-                    return (
-                        <Form onSubmit={props.handleSubmit}>
-                            {stepsToDisplay.map((step) => renderSubForm(step, props))}
-                        </Form>
-                    );
-                }
-            }}
-        </Formik>
-    );
+    return <Form>{stepsToDisplay.map((step) => renderSubForm(step, props))}</Form>;
 };
 
 export default React.memo(withStyles(styles)(PropertyForm));
