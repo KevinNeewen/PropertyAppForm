@@ -4,7 +4,7 @@ import OperatingExpensesSubFormValidator from './OperatingExpensesSubForm/valida
 import LoanInformationSubFormValidator from './LoanInformationSubForm/validator';
 import AssumptionsSubFormValidator from './AssumptionsSubForm/validator';
 
-const Create = (step: PropertyFormStepsEnum) => {
+const Create = (step: PropertyFormStepsEnum): any => {
     switch (step) {
         case PropertyFormStepsEnum.ValuationAndRent:
             return ValuationAndRentSubFormValidator;

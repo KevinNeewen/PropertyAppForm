@@ -9,9 +9,8 @@ import PropertyForm from './components/PropertyForm';
 import {
     PropertyFormStepsEnum,
     PropertyFormStepsToDescriptionMap,
-    PropertyFormStepToFormFieldMap,
+    PropertyFormStepToSubFormField,
     PropertyFormValues,
-    SubFormValues,
 } from './types';
 import styles from './styles';
 import { FormikProps, withFormik } from 'formik';
@@ -27,7 +26,6 @@ const PropertyFormPage = (props: MyProps) => {
         classes,
         values,
         errors,
-        setValues,
         setErrors,
     } = props;
 
@@ -54,12 +52,6 @@ const PropertyFormPage = (props: MyProps) => {
         isAutomaticScroll.current = true;
     }, [activeStep]);
 
-    const setSubForm = (step: PropertyFormStepsEnum, subFormValues: SubFormValues) => {
-        const newValues = { ...values, [PropertyFormStepToFormFieldMap[step]]: { ...subFormValues } };
-
-        setValues(newValues, false);
-    };
-
     const totalSteps = () => {
         return steps.length;
     };
@@ -76,32 +68,30 @@ const PropertyFormPage = (props: MyProps) => {
         return scrollableSteps.includes(step);
     };
 
-    const handleNextStep = (currentStep: PropertyFormStepsEnum, subFormValues: SubFormValues) => () => {
+    const handleNextStep = (currentStep: PropertyFormStepsEnum) => () => {
         if (currentStep === steps.length - 1) {
             return;
         }
 
-        const isValid = validateStep(currentStep, subFormValues);
-        if (!isValid) {
-            return;
-        }
-
-        setSubForm(currentStep, subFormValues);
+        const isValid = validateStep(currentStep);
 
         const nextStep = currentStep + 1;
+
+        if (!scrollableSteps.includes(nextStep)) {
+            if (!isValid) {
+                return;
+            }
+            setScrollableSteps((scrollableSteps) => {
+                const newScrollableSteps = [...scrollableSteps, nextStep];
+                newScrollableSteps.sort();
+                return newScrollableSteps;
+            });
+        }
 
         if (!completedSteps.includes(nextStep)) {
             setCompletedSteps((prevCompletedSteps) => {
                 const newCompleteSteps = prevCompletedSteps.concat(currentStep);
                 return newCompleteSteps;
-            });
-        }
-
-        if (!scrollableSteps.includes(nextStep)) {
-            setScrollableSteps((scrollableSteps) => {
-                const newScrollableSteps = [...scrollableSteps, nextStep];
-                newScrollableSteps.sort();
-                return newScrollableSteps;
             });
         }
 
@@ -112,25 +102,21 @@ const PropertyFormPage = (props: MyProps) => {
         setActiveStep(nextStep);
     };
 
-    const handlePrevStep = (currentStep: PropertyFormStepsEnum, subFormValues: SubFormValues) => () => {
+    const handlePrevStep = (currentStep: PropertyFormStepsEnum) => () => {
         if (currentStep === 0) {
             return;
         }
 
-        const isValid = validateStep(currentStep, subFormValues);
-        if (!isValid) {
-            return;
-        }
-
-        setSubForm(currentStep, subFormValues);
+        validateStep(currentStep);
 
         const previousStep = currentStep - 1;
 
         setActiveStep(previousStep);
     };
 
-    const handleStep = (step: PropertyFormStepsEnum) => () => {
-        setActiveStep(step);
+    const handleStep = (currentStep: PropertyFormStepsEnum, toStep: PropertyFormStepsEnum) => () => {
+        validateStep(currentStep);
+        setActiveStep(toStep);
     };
 
     const getSteps = () => {
@@ -145,15 +131,15 @@ const PropertyFormPage = (props: MyProps) => {
         return activeStep === step ? false : isComplete;
     };
 
-    const validateStep = (step: PropertyFormStepsEnum, subFormValues: SubFormValues) => {
+    const validateStep = (step: PropertyFormStepsEnum) => {
         const validator = SubFormValidatorFactory.Create(activeStep);
         if (!validator) {
             return true;
         }
         try {
-            validator.validateSync(subFormValues, { abortEarly: false });
+            validator.validateSync(values[PropertyFormStepToSubFormField[step]], { abortEarly: false });
 
-            setErrors({ ...errors, [PropertyFormStepToFormFieldMap[step]]: [] });
+            setErrors({ ...errors, [PropertyFormStepToSubFormField[step]]: [] });
 
             return true;
         } catch (error) {
@@ -162,7 +148,7 @@ const PropertyFormPage = (props: MyProps) => {
                 message: e.message,
             }));
 
-            setErrors({ ...errors, [PropertyFormStepToFormFieldMap[step]]: subFormErrors });
+            setErrors({ ...errors, [PropertyFormStepToSubFormField[step]]: subFormErrors });
 
             return false;
         }
@@ -174,23 +160,24 @@ const PropertyFormPage = (props: MyProps) => {
             if (isFirstStep(activeStep)) {
                 return;
             }
-            //validateStep
-            setActiveStepIfInScreen(activeStep - 1);
+
+            setActiveStepIfInScreen(activeStep, activeStep - 1);
         } else {
             //scrolling down
             if (isLastStep(activeStep)) {
                 return;
             }
             //validateStep
-            setActiveStepIfInScreen(activeStep + 1);
+            setActiveStepIfInScreen(activeStep, activeStep + 1);
         }
     };
 
-    const setActiveStepIfInScreen = (step: PropertyFormStepsEnum) => {
-        const el = document.getElementById(`#subform-${step}`)?.querySelector('h1');
+    const setActiveStepIfInScreen = (currentStep: PropertyFormStepsEnum, toStep: PropertyFormStepsEnum) => {
+        const el = document.getElementById(`#subform-${toStep}`)?.querySelector('h1');
         if (ScreenHelper.isInViewPort(el)) {
             isAutomaticScroll.current = false;
-            setActiveStep(step);
+            validateStep(currentStep);
+            setActiveStep(toStep);
         }
     };
 
@@ -201,6 +188,13 @@ const PropertyFormPage = (props: MyProps) => {
         return false;
     };
 
+    const hasStepError = (step: PropertyFormStepsEnum) => {
+        if (activeStep === step) {
+            return false;
+        }
+        return errors[PropertyFormStepToSubFormField[step]]?.length > 0;
+    };
+
     return (
         <Page classes={{ page: classes.page }} appBarContent={<div></div>}>
             <BlueWavePrimarySvg classes={{ svg: classes.blueWaveSvg }} />
@@ -209,7 +203,6 @@ const PropertyFormPage = (props: MyProps) => {
                     actions: {
                         handleNextStep: handleNextStep,
                         handlePrevStep: handlePrevStep,
-                        setSubForm: setSubForm,
                     },
                 }}
             >
@@ -222,6 +215,7 @@ const PropertyFormPage = (props: MyProps) => {
                             handleStep={handleStep}
                             isScrollableTo={isStepScrollableTo}
                             isLastIncompleteStep={isLastIncompleteStep}
+                            hasStepError={hasStepError}
                         />
                     </Grid>
                     <Grid item sm={9} md={10}>

@@ -1,11 +1,11 @@
 import React from 'react';
-import { PropertyFormStepsEnum, SubFormValues } from './types';
+import { PropertyFormStepsEnum } from './types';
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
 const PropertyFormContext = React.createContext({
     actions: {
-        handleNextStep: (currentStep: PropertyFormStepsEnum, subFormValues: SubFormValues) => () => {},
-        handlePrevStep: (currentStep: PropertyFormStepsEnum, subFormValues: SubFormValues) => () => {},
-        setSubForm: (step: PropertyFormStepsEnum, values: any) => {},
+        handleNextStep: (currentStep: PropertyFormStepsEnum) => () => {},
+        handlePrevStep: (currentStep: PropertyFormStepsEnum) => () => {},
     },
 });
 

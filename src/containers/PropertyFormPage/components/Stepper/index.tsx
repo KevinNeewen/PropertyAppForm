@@ -3,14 +3,19 @@ import { Container, StepConnector, StepLabel, Stepper as MuiStepper, Step, StepB
 import { withStyles, WithStyles } from '@material-ui/styles';
 import styles from './styles';
 import { PropertyFormStepsEnum } from '../../types';
+import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 
 interface MyProps extends WithStyles<typeof styles> {
     steps: string[];
     activeStep: PropertyFormStepsEnum;
     isScrollableTo: (step: PropertyFormStepsEnum) => boolean;
-    handleStep: (step: PropertyFormStepsEnum) => (event: React.MouseEvent<HTMLButtonElement>) => void;
+    handleStep: (
+        currentStep: PropertyFormStepsEnum,
+        toStep: PropertyFormStepsEnum,
+    ) => (event: React.MouseEvent<HTMLButtonElement>) => void;
     isComplete: (step: PropertyFormStepsEnum) => boolean;
     isLastIncompleteStep: (step: PropertyFormStepsEnum) => boolean;
+    hasStepError: (step: PropertyFormStepsEnum) => boolean;
 }
 
 const Stepper = (props: MyProps) => {
@@ -22,6 +27,7 @@ const Stepper = (props: MyProps) => {
         handleStep,
         isComplete,
         isScrollableTo,
+        hasStepError,
         isLastIncompleteStep,
     } = props;
 
@@ -42,17 +48,24 @@ const Stepper = (props: MyProps) => {
                     <Step key={index}>
                         <StepButton
                             classes={{ root: classes.stepButton }}
-                            onClick={handleStep(index)}
+                            onClick={handleStep(activeStep, index)}
                             disabled={!isScrollableTo(index)}
                             completed={isComplete(index)}
                         >
                             <StepLabel
                                 classes={{
                                     root: ` ${
-                                        isLastIncompleteStep(index) ? classes.lastIncompleteStep : classes.stepLabel
+                                        !hasStepError(index)
+                                            ? isLastIncompleteStep(index)
+                                                ? classes.lastIncompleteStep
+                                                : classes.stepLabel
+                                            : classes.stepLabelError
                                     }`,
+                                    error: classes.stepError,
                                     vertical: classes.stepLabelVertical,
                                 }}
+                                error={hasStepError(index)}
+                                StepIconComponent={hasStepError(index) ? PriorityHighIcon : null}
                             >
                                 {label}
                             </StepLabel>

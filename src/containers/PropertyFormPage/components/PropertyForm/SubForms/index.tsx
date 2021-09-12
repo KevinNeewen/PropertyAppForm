@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { withStyles, WithStyles } from '@material-ui/styles';
 import { Container } from '@material-ui/core';
 import Header from '../../../../../components/Header';
@@ -7,12 +7,12 @@ import styles from './styles';
 import { FormButtonType } from './types';
 import {
     PropertyFormStepsEnum,
-    PropertyFormStepToFormFieldMap,
+    PropertyFormStepToSubFormField,
     PropertyFormValues,
     SubFormValues,
 } from '../../../types';
 import PropertyFormContext from '../../../context';
-import { FormikErrors, FormikProps, useFormikContext } from 'formik';
+import { FormikErrors, useFormikContext } from 'formik';
 
 interface SubForm {
     step: PropertyFormStepsEnum;
@@ -39,17 +39,16 @@ const SubForm = (props: MyProps) => {
         children,
     } = props;
 
-    const formikProps: FormikProps<PropertyFormValues> = useFormikContext();
+    const {
+        //
+        values,
+        errors,
+        setValues,
+    } = useFormikContext<PropertyFormValues>();
 
-    const initialValues = formikProps.values[PropertyFormStepToFormFieldMap[step]];
+    const subForm = values[PropertyFormStepToSubFormField[step]];
 
-    const subFormErrors: FormikErrors<any>[] = formikProps.errors[
-        PropertyFormStepToFormFieldMap[step]
-    ] as FormikErrors<any>[];
-
-    const [subForm, setSubForm] = useState<SubFormValues>({
-        ...initialValues,
-    });
+    const subFormErrors: FormikErrors<any>[] = errors[PropertyFormStepToSubFormField[step]] as FormikErrors<any>[];
 
     const hasError = (field: string) => {
         const error = subFormErrors?.find((error) => error.field === field);
@@ -61,7 +60,13 @@ const SubForm = (props: MyProps) => {
 
     const handleChange = (event: React.ChangeEvent<{ value: unknown; name?: string }>) => {
         const subFormField = event.target.name.split('.')[1];
-        setSubForm({ ...subForm, [subFormField]: event.target.value });
+        setValues({
+            ...values,
+            [PropertyFormStepToSubFormField[step]]: {
+                ...values[PropertyFormStepToSubFormField[step]],
+                [subFormField]: event.target.value,
+            },
+        });
     };
 
     const submitSubFormValuesOnClick =
@@ -73,9 +78,9 @@ const SubForm = (props: MyProps) => {
             } = actions;
 
             if (direction === 'Next') {
-                handleNextStep(step, subForm)(event);
+                handleNextStep(step)(event);
             } else {
-                handlePrevStep(step, subForm)(event);
+                handlePrevStep(step)(event);
             }
         };
 

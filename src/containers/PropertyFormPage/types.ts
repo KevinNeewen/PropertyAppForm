@@ -7,7 +7,7 @@ export enum PropertyFormStepsEnum {
     Summary = 5,
 }
 
-export const PropertyFormStepToFormFieldMap = {
+export const PropertyFormStepToSubFormField = {
     [PropertyFormStepsEnum.PropertyInformation]: 'propertyInformation',
     [PropertyFormStepsEnum.ValuationAndRent]: 'valuationAndRent',
     [PropertyFormStepsEnum.LoanInformation]: 'loanInformation',

@@ -12,6 +12,32 @@ const styles = (theme: Theme): any =>
         stepButton: {
             justifyContent: 'flex-end',
         },
+        stepLabelError: {
+            flexDirection: 'row-reverse',
+            '& .MuiStepLabel': {
+                '&-labelContainer': {
+                    width: 'auto',
+                    '& span': {
+                        fontSize: '1rem',
+                        color: theme.palette.colors.darkBlue,
+                    },
+                },
+                fontWeight: 600,
+                color: theme.palette.primary.light,
+                '&-iconContainer': {
+                    '& svg': {
+                        fontSize: '1.3rem',
+                        marginLeft: '.6rem',
+                        border: `2px solid ${theme.palette.primary.main}`,
+                        fill: theme.palette.primary.main,
+                        borderRadius: '5rem',
+                        '& text': {
+                            display: 'none',
+                        },
+                    },
+                },
+            },
+        },
         lastIncompleteStep: {
             flexDirection: 'row-reverse',
             '& .MuiStepLabel': {
