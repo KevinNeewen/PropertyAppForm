@@ -1,26 +1,52 @@
 import React from 'react';
 import { Paper, Typography } from '@material-ui/core';
 import { Box, Grid, CircularProgress } from '@material-ui/core';
-import { withStyles, WithStyles } from '@material-ui/styles';
+import { withStyles, WithStyles, makeStyles } from '@material-ui/styles';
 import styles from './styles';
+import { theme } from '../../../../theme';
 
-
-interface MyProps {}
+interface MyProps{
+    title: string;
+    startValue: number;
+    endValue: number;
+}
 
 const PropertySnapshotDonut = (props: MyProps) => {
-    const classes = styles();
-      
+    const classes = styles(theme);
+    
+    const determinePercentangeChange = (startValue: number, endValue: number) => {
+        let percent;
+        if(endValue !== 0) {
+            if(startValue !== 0) {
+                percent = (endValue - startValue) / startValue * 100;
+            } else {
+                percent = endValue * 100;
+            }
+        } else {
+            percent = - startValue * 100;            
+        }       
+        return Math.floor(percent);
+    }
+
+    const determineAbsoluteDifference = (startValue: number, endValue: number) => {
+        return Math.abs(startValue - endValue)
+    }
+
+    const isPositiveChange = (startValue: number, endValue: number) => {
+        return endValue > startValue;
+    } // Handle Signs
+    
     return(
         <Box
         className={classes.circle}
         p={4}
         >
             <Typography variant={'h3'} align='center'>
-                Value Growth
+                {props.title}
             </Typography>
             <CircularProgress
                 size={`${100}%`}
-                value={60}
+                value={determinePercentangeChange(props.startValue, props.endValue)}
                 thickness={3}
                 variant="static"
                 color="primary"
@@ -35,25 +61,14 @@ const PropertySnapshotDonut = (props: MyProps) => {
               />
               <Box className={classes.bar} p={6}>
               <Typography variant={'h1'} align='center' noWrap={true}>
-                60%
+                {determinePercentangeChange(props.startValue, props.endValue)}
               </Typography>
               <Typography variant={'h3'} align='center' noWrap={true}>
-                  ^ $420,000
+                  {props.endValue}
               </Typography>
               </Box>
         </Box>
-        /*<React.Fragment>
-            <Grid item xs={4}>
-                <Paper className={classes.paper}>item</Paper>
-            </Grid>
-            <Grid item xs={4}>
-                <Paper className={classes.paper}>item</Paper>
-            </Grid>
-            <Grid item xs={4}>
-                <Paper className={classes.paper}>item</Paper>
-            </Grid>
-        </React.Fragment> */
     );
 }
 
-export default PropertySnapshotDonut;
+export default (PropertySnapshotDonut);

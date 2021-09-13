@@ -19,13 +19,13 @@ const PropertySnapshotVisualContainer = (props: MyProps) => {
         <Box boxShadow={4} p={2} m={4} display="flex">
             <Grid container spacing={4}>
                 <Grid item xs={4}>
-                <PropertySnapshotDonut />
+                <PropertySnapshotDonut title={"Value Growth"} startValue={400000} endValue={420000}/>
                 </Grid>
                 <Grid item xs={4}>
-                <PropertySnapshotDonut />
+                <PropertySnapshotDonut title={"Value Growth"} startValue={400000} endValue={420000}/>
                 </Grid>
                 <Grid item xs={4}>
-                <PropertySnapshotDonut />
+                <PropertySnapshotDonut title={"Value Growth"} startValue={400000} endValue={420000}/>
                 </Grid>
             </Grid>
         </Box>
