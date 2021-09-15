@@ -31,7 +31,7 @@ const ValuationAndRentSubForm = (props: MyProps) => {
                 text: 'Next',
             }}
         >
-            {(subForm, hasError, handleChange) => (
+            {({ subForm, hasError, handleChange }) => (
                 <>
                     <Grid classes={{ root: classes.grid }} container>
                         <Grid container item xs={6} direction="column">

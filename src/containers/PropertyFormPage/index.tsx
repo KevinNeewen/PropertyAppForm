@@ -115,6 +115,7 @@ const PropertyFormPage = (props: MyProps) => {
     };
 
     const handleStep = (currentStep: PropertyFormStepsEnum, toStep: PropertyFormStepsEnum) => () => {
+        console.log('handle step to ', toStep);
         validateStep(currentStep);
         setActiveStep(toStep);
     };
@@ -203,6 +204,7 @@ const PropertyFormPage = (props: MyProps) => {
                     actions: {
                         handleNextStep: handleNextStep,
                         handlePrevStep: handlePrevStep,
+                        handleStep: handleStep,
                     },
                 }}
             >

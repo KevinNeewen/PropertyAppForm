@@ -6,6 +6,7 @@ const PropertyFormContext = React.createContext({
     actions: {
         handleNextStep: (currentStep: PropertyFormStepsEnum) => () => {},
         handlePrevStep: (currentStep: PropertyFormStepsEnum) => () => {},
+        handleStep: (currentStep: PropertyFormStepsEnum, toStep: PropertyFormStepsEnum) => () => {},
     },
 });
 

@@ -8,6 +8,7 @@ export interface Button extends WithStyles<typeof styles> {
     invisible?: boolean;
     onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
     disabled?: boolean;
+    hasBorder?: boolean;
 }
 
 const Button = (props: Button) => {
@@ -15,7 +16,7 @@ const Button = (props: Button) => {
 
     return (
         <MuiButton //
-            className={classes.button}
+            classes={{ root: classes.root }}
             onClick={onClick}
             disabled={disabled}
         >

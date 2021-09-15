@@ -8,7 +8,7 @@ const styles = (): any =>
         },
         subFormDetails: {
             width: '75%',
-            height: '45vh',
+            height: '35vh',
 
             '& .MuiFormControl': {
                 '&-root': {

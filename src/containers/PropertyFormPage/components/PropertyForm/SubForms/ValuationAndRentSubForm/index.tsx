@@ -43,7 +43,7 @@ const ValuationAndRentSubForm = (props: MyProps) => {
                 text: 'Next',
             }}
         >
-            {(subForm, hasError, handleChange) => (
+            {({ subForm, hasError, handleChange }) => (
                 <>
                     <InputField //
                         id="valuationAndRent.purchasePrice"

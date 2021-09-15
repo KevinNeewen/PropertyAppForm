@@ -49,7 +49,7 @@ const PropertyInformationSubForm = (props: MyProps) => {
                 text: 'Next',
             }}
         >
-            {(subForm, hasError, handleChange) => (
+            {({ subForm, handleChange }) => (
                 <>
                     <SelectField
                         id="propertyInformation.propertyType"

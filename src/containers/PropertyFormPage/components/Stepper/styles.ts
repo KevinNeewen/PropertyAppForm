@@ -45,6 +45,7 @@ const styles = (theme: Theme): any =>
                     width: 'auto',
                     '& span': {
                         fontSize: '1rem',
+                        color: theme.palette.colors.darkBlue,
                     },
                 },
                 fontWeight: 600,

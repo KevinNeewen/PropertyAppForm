@@ -8,6 +8,7 @@ import ValuationAndRentSubForm from './SubForms/ValuationAndRentSubForm';
 import LoanInformationSubForm from './SubForms/LoanInformationSubForm';
 import OperatingExpensesSubForm from './SubForms/OperatingExpensesSubForm';
 import AssumptionsSubForm from './SubForms/AssumptionsSubForm';
+import SummarySubForm from './SubForms/SummarySubForm';
 
 interface MyProps extends WithStyles<typeof styles> {
     activeStep: PropertyFormStepsEnum;
@@ -34,6 +35,8 @@ const PropertyForm = (props: MyProps) => {
                     return <OperatingExpensesSubForm key={step} {...props} />;
                 case PropertyFormStepsEnum.Assumptions:
                     return <AssumptionsSubForm key={step} {...props} />;
+                case PropertyFormStepsEnum.Summary:
+                    return <SummarySubForm key={step} {...props} />;
                 default:
                     return;
             }

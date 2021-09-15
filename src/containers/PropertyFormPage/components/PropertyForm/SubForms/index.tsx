@@ -14,17 +14,24 @@ import {
 import PropertyFormContext from '../../../context';
 import { FormikErrors, useFormikContext } from 'formik';
 
+type ChildrenProps = {
+    //
+    form: PropertyFormValues;
+    subForm: SubFormValues;
+    hasError: (field: string) => any;
+    handleChange: (event: React.ChangeEvent<{ value: unknown; name?: string }>) => void;
+    handleStep: (
+        currentStep: PropertyFormStepsEnum,
+        toStep: PropertyFormStepsEnum,
+    ) => (event: React.MouseEvent<HTMLButtonElement>) => void;
+};
+
 interface SubForm {
     step: PropertyFormStepsEnum;
     title: string;
     previousButton?: FormButtonType;
     nextButton?: FormButtonType;
-    children: (
-        //
-        subForm: SubFormValues,
-        hasError: (field: string) => any,
-        handleChange: (event: React.ChangeEvent<{ value: unknown; name?: string }>) => void,
-    ) => React.ReactNode;
+    children: (props: ChildrenProps) => React.ReactNode;
 }
 
 type MyProps = SubForm & WithStyles<typeof styles>;
@@ -47,6 +54,8 @@ const SubForm = (props: MyProps) => {
     } = useFormikContext<PropertyFormValues>();
 
     const subForm = values[PropertyFormStepToSubFormField[step]];
+
+    const form = values;
 
     const subFormErrors: FormikErrors<any>[] = errors[PropertyFormStepToSubFormField[step]] as FormikErrors<any>[];
 
@@ -90,6 +99,7 @@ const SubForm = (props: MyProps) => {
                 {previousButton && (
                     <Button //
                         invisible
+                        hasBorder
                         disabled={previousButton.disabled}
                         onClick={submitSubFormValuesOnClick(actions, 'Previous')}
                     >
@@ -122,9 +132,7 @@ const SubForm = (props: MyProps) => {
                             <div className={classes.subFormDetails}>
                                 {children(
                                     //
-                                    subForm,
-                                    hasError,
-                                    handleChange,
+                                    { form, subForm, hasError, handleChange, handleStep: actions.handleStep },
                                 )}
                             </div>
                             {renderFormButtons(actions)}

@@ -31,7 +31,7 @@ const AssumptionsSubForm = (props: MyProps) => {
                 text: 'Next',
             }}
         >
-            {(subForm, hasError, handleChange) => (
+            {({ subForm, hasError, handleChange }) => (
                 <Grid container classes={{ root: classes.grid }}>
                     <Grid item xs={6} container direction="column">
                         <InputField //

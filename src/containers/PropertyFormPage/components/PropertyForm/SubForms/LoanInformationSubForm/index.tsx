@@ -43,7 +43,7 @@ const LoanInformationSubForm = (props: MyProps) => {
                 text: 'Next',
             }}
         >
-            {(subForm, hasError, handleChange) => (
+            {({ subForm, hasError, handleChange }) => (
                 <>
                     <InputField //
                         id="loanInformation.originalLoan"
