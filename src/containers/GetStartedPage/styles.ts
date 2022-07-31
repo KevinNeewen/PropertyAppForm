@@ -17,7 +17,7 @@ const styles = makeStyles((theme: Theme) =>
             backgroundColor: theme.palette.primary.main,
         },
         introductionContainer: {
-            marginLeft: '13rem',
+            marginLeft: '13rem !important',
             marginTop: '12rem',
             width: 'auto',
         },
